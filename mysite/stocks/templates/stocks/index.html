@@ -15,6 +15,66 @@
 </head>
 
 <body>
+  <form action = "" method = "POST">
+    {% csrf_token %} 
+    <label for="your_name">Your name: </label>
+    <input id="your_name" type="text" name="your_name">
+    <input type="submit" value="OK">
+
+    <label for="player_year">Desired Year: </label>
+    <input id="your_name" type="text" name="your_name">
+    <input type="submit" value="OK">
+  </form>
+
+
+
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">IT IS CURRENTLY JANUARY</a>
+    <a class="navbar-brand" href="#">NOAH CRESS, YOU CURRENTLY HAVE [] IN CASH, AND YOUR NET WORTH IS []</a>
+    <a class="navbar-brand" href="#">YOUR NEXT DEADLINE IS MARCH</a>
+  </nav>
+  
+  
+  <div class="container main-cont">
+    <div class="row">
+      <div class="col-6 right">
+        <div class="container ">
+          <div class="tab">
+            <button class="tablinks" onclick="openCity(event,                   'London')">Stock Chart</button>
+            <button class="tablinks" onclick="openCity(event,                    'Paris')">Stock News</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 left">
+        <div class="container cont-stock">
+          <h1>
+            TBC:
+          </h1>
+          <h2>
+            You have [] of TBC
+          </h2>
+          <form>
+            <div class="form-group">
+              
+              <label for="buying_stock"> Buy []</label> </br>
+              <input type="text" class="form-control" id="[]_buy"                placeholder="0" /> </br>
+              <label for="selling_stock"> Sell []</label> </br>
+              <input type="text" class="form-control" id="[]_sell"                placeholder="0" /> </br>
+            
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Confirm Trades</button>
+          </form>
+        </div>
+      </div>
+        
+    </div>
+   </div>
+    
+  
+  
+
+
+
   <script src="js/scripts.js"></script>
 </body>
 </html>

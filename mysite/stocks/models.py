@@ -3,43 +3,45 @@ from django.db import models
 # Create your models here.
 
 class stocks_info(models.Model):
-    jan_value = models.IntegerField(default=0)
-    feb_value = models.IntegerField()
-    mar_value = models.IntegerField()
-    april_value = models.IntegerField()
-    may_value = models.IntegerField()
-    june_value = models.IntegerField()
-    july_value = models.IntegerField()
-    aug_value = models.IntegerField()
-    sept_value = models.IntegerField()
-    oct_value = models.IntegerField()
-    nov_value = models.IntegerField()
-    december_value = models.IntegerField()
-    stock_symbol = models.CharField(max_length=4)
+    jan_value = models.FloatField(default=0.0)
+    feb_value = models.FloatField(default=0.0)
+    mar_value = models.FloatField(default=0.0)
+    april_value = models.FloatField(default=0.0)
+    may_value = models.FloatField(default=0.0)
+    june_value = models.FloatField(default=0.0)
+    july_value = models.FloatField(default=0.0)
+    aug_value = models.FloatField(default=0.0)
+    sept_value = models.FloatField(default=0.0)
+    oct_value = models.FloatField(default=0.0)
+    nov_value = models.FloatField(default=0.0)
+    december_value = models.FloatField(default=0.0)
+ 
 
-class player_info(models.Model):
+class stock_identity(models.Model):
+    stock_symbol = models.CharField(max_length=5)
+
+
+class player_option(models.Model):
     player_name = models.CharField(max_length=16)
     player_year = models.IntegerField(default=2020)
-    players_liquid_money = models.IntegerField()
-    players_total_money = models.IntegerField()
-    stock_1 = models.IntegerField()
-    stock_2 = models.IntegerField()
-    stock_3 = models.IntegerField()
-    stock_4 = models.IntegerField()
-    stock_5 = models.IntegerField()
-    stock_6 = models.IntegerField()
-    stock_7 = models.IntegerField()
-    stock_8 = models.IntegerField()
-    stock_9 = models.IntegerField()
-    stock_10 = models.IntegerField()
 
-class player_targets(models.Model):
-    march_target = models.IntegerField()
-    june_target = models.IntegerField()
-    sept_target = models.IntegerField()
-    december_target = models.IntegerField()
 
-class time_trackers(models.Model):
-    actions_base = models.IntegerField(default=5)
+class player_money(models.Model):
+    players_beginning_money = models.FloatField(default=0.0)
+    players_liquid_money = models.FloatField(default=0.0)
+    players_total_money = models.FloatField(default=0.0)
+
+
+
+class player_target(models.Model):
+    march_target = models.FloatField(default=0.0)
+    june_target = models.FloatField(default=0.0)
+    sept_target = models.FloatField(default=0.0)
+    december_target = models.FloatField(default=0.0)
+
+
+class time_tracker(models.Model):
+    action_economy = models.IntegerField(default=5)
     current_month = models.CharField(max_length=16, default='January')
     target_month = models.CharField(max_length=16, default="March")
+ 
