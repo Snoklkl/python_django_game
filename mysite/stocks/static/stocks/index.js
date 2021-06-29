@@ -26,16 +26,16 @@
   
   
    $("#NewsButton").on("click", (function() {
-      $.get("https://newsapi.org/v2/everything?q=abc&language=en&pageSize=2&from=2020-01-0`1&to=2020-01-31&apiKey=" + newsApi , (function(response){
-           
+      $.get("https://newsapi.org/v2/everything?q=tesla&language=en&pageSize=2&from=2020-05-028&apiKey=" + newsApi , (function(response){
+          console.log(response.articles.length)     
+
            if(("#abcNews").length > 1) {
              $("#abcNews").empty()
            }
              
         for (var i=0; i < response.articles.length; i++){
-        console.log(response.articles[i].title)
-        var searchResponse = response.articles[i].title;
-        $("#abcNews").append(searchResponse);
+          var searchResponse = response.articles[i].title;
+          $("#abcNews").append(response.getArticles().get(i).getTitle());
       
 
       }
@@ -187,10 +187,10 @@
   const data = {
     labels: labels,
     datasets: [{
-      label: 'My First dataset',
+      label: 'Stock Value in $', 
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
-      data: [0, 10, 5, 2, 20, 30, 45],
+      data: [0 , 10, 5, 2, 20, 30, 45],
     }]
   };
 
