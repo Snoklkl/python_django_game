@@ -13,7 +13,6 @@ nav{
    
    .row{
      width: 100vw;
-   
    }
    
    .right {
@@ -53,19 +52,19 @@ nav{
    
    
    .tab button {
-     background-color: inherit;
-     float: left;
-     border: 1px solid #ccc;
-     outline: none;
-     cursor: pointer;
-     padding: 14px 16px;
-     transition: 0.3s;
-   }
-   
-   .tab button:hover {
-     background-color: #ddd;
-   }
-   
-   .tab button:active {
-     background-color: silver;
-   }
+    background-color: inherit;
+    float: left;
+    border: 1px solid #ccc;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+  }
+  
+  .tab button:hover {
+    background-color: #ddd;
+  }
+  
+  .tab button:active {
+    background-color: silver;
+  }
