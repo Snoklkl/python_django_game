@@ -10,6 +10,10 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
+
+  <link rel="stylesheet" type="text/css" href="mysite\stocks\static\stocks\style.css">
+
+
   <link rel="stylesheet" href="css/styles.css?v=1.0">
 
 </head>
@@ -26,8 +30,6 @@
     <input type="submit" value="OK">
   </form>
 
-
-
   <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="#">IT IS CURRENTLY JANUARY</a>
     <a class="navbar-brand" href="#">NOAH CRESS, YOU CURRENTLY HAVE [] IN CASH, AND YOUR NET WORTH IS []</a>
@@ -39,9 +41,38 @@
     <div class="row">
       <div class="col-6 right">
         <div class="container ">
-          <div class="tab">
-            <button class="tablinks" onclick="openCity(event,                   'London')">Stock Chart</button>
-            <button class="tablinks" onclick="openCity(event,                    'Paris')">Stock News</button>
+          <div class="row">
+            <div class="col-12">
+              <div class="tab">
+                <button class="tablinks" onclick="openTab(event,                   'Chart')">Stock Chart</button>
+                  <button id="NewsButton" class="tablinks" onclick="openTab(event,'News')">Stock News</button>
+              </div>
+             </div>
+           </div>
+          <div id="Chart" class="tabcontent">
+            <canvas id="myChart">  </canvas>
+          </div>
+          <div id="News" class="tabcontent">
+              
+              <h1>
+              ABC:
+              </h1>
+              <h2 id="abcNews">
+                
+              </h2>
+            
+              <h1>
+              BBC:
+              </h1>
+            
+              <h2 id="bbcNews">
+              </h2>
+            
+  
+              
+            
+            
+            
           </div>
         </div>
       </div>
@@ -56,13 +87,19 @@
           <form>
             <div class="form-group">
               
-              <label for="buying_stock"> Buy []</label> </br>
-              <input type="text" class="form-control" id="[]_buy"                placeholder="0" /> </br>
-              <label for="selling_stock"> Sell []</label> </br>
+              <label for="buying_stock"> Buy TBC:</label> </br>
+              <input type="text" class="form-control" id="[]_buy"                placeholder="0" /> </br>         
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Confirm Purchase</button>
+          </form>
+          <form>
+            <div class="form-group">
+              
+              <label for="selling_stock"> Sell TBC:</label> </br>
               <input type="text" class="form-control" id="[]_sell"                placeholder="0" /> </br>
             
             </div>
-            <button type="submit" class="btn btn-primary mb-2">Confirm Trades</button>
+            <button type="submit" class="btn btn-primary mb-2">Confirm Sales</button>
           </form>
         </div>
       </div>
@@ -71,10 +108,13 @@
    </div>
     
   
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+  
   
 
 
 
-  <script src="js/scripts.js"></script>
+  <script src="mysite\stocks\static\stocks\index.js"></script>
 </body>
 </html>
