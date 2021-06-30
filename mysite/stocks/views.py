@@ -9,8 +9,14 @@ cur = con.cursor()
 
 def index(request):
     player_information = player_option.objects.get(id=1)
- 
-    return render(request, 'stocks/index.html')
+
+    context = {
+        'player_name': player_information.player_name.upper(),
+        'current_cash': player_information.players_liquid_money,
+        'player_worth': player_information.players_total_money,
+
+    }
+    return render(request, 'stocks/index.html', context)
 
 def create_player(request):
 
