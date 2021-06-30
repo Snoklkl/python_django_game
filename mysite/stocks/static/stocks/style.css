@@ -65,7 +65,9 @@
      width: 20%;
    }
    
-
+   #News {
+       display: none;
+   }
    
    .tab button {
     background-color: inherit;

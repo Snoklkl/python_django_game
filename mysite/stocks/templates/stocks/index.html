@@ -15,7 +15,7 @@
 
 </head>
 
-<body>
+<body >
   <form action = "" method = "POST">
     {% csrf_token %} 
     <label for="your_name">Your name: </label>
@@ -47,14 +47,26 @@
               </div>
              </div>
            </div>
-          <div id="Chart" class="tabcontent">
-            <canvas id="myChart">  </canvas>
+
+           <div id="News" class="tabcontent">
+              
+            <h1>
+            UNDER CONSTRUCTION
+            </h1>
           </div>
-          <div id="News" class="tabcontent">
-              <h1>
-              UNDER CONSTRUCTION
-              </h1>
-          </div>
+
+          
+          {% for stock in stock_info %}
+            
+
+            
+
+            <div id="Chart" class="tabcontent">
+              <h1> {{ stock.stock_symbol }}</h1>
+              <canvas id="myChart">  </canvas>
+            </div>
+
+          {% endfor %}  
         </div>
       </div>
       <div class="col-6 left">
