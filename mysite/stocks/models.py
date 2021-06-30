@@ -22,22 +22,21 @@ class stock_identity(models.Model):
 
 
 class player_option(models.Model):
-    player_name = models.CharField(max_length=16)
+    player_name = models.CharField(max_length=16, default="player")
     player_year = models.IntegerField(default=2020)
 
 
 class player_money(models.Model):
-    players_beginning_money = models.FloatField(default=0.0)
-    players_liquid_money = models.FloatField(default=0.0)
-    players_total_money = models.FloatField(default=0.0)
+    players_liquid_money = models.FloatField(default=500.0)
+    players_total_money = models.FloatField(default=10000.0)
 
 
 
 class player_target(models.Model):
-    march_target = models.FloatField(default=0.0)
-    june_target = models.FloatField(default=0.0)
-    sept_target = models.FloatField(default=0.0)
-    december_target = models.FloatField(default=0.0)
+    march_target = models.FloatField(default=50.0)
+    june_target = models.FloatField(default=100.0)
+    sept_target = models.FloatField(default=150.0)
+    december_target = models.FloatField(default=200.0)
 
 
 class time_tracker(models.Model):

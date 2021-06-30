@@ -8,6 +8,8 @@ cur = con.cursor()
 # Create your views here.
 
 def index(request):
+    player_information = player_option.objects.get(id=1)
+ 
     return render(request, 'stocks/index.html')
 
 def create_player(request):
