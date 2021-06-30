@@ -4,9 +4,11 @@
         width: 100vw; 
         
     }
+
+
     
-    .nav-font {
-        font-size: 3px !important;
+    #ui {
+        font-size: 1em;
     }
    
    .main-cont{

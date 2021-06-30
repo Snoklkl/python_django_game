@@ -16,6 +16,7 @@ class stocks_info(models.Model):
     oct_value = models.FloatField(default=0.0)
     nov_value = models.FloatField(default=0.0)
     december_value = models.FloatField(default=0.0)
+    amount_owned = models.IntegerField(default = 3)
  
 
 class player_option(models.Model):
@@ -27,6 +28,8 @@ class player_option(models.Model):
     action_economy = models.IntegerField(default=5)
     current_month = models.CharField(max_length=16, default='January')
     target_month = models.CharField(max_length=16, default="March")
+
+
     
 
     
