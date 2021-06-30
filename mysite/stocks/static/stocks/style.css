@@ -1,6 +1,13 @@
-nav{
-    width: 100vw; 
-   }
+    
+    
+    nav{
+        width: 100vw; 
+        
+    }
+    
+    .nav-font {
+        font-size: 3px !important;
+    }
    
    .main-cont{
      margin: 0px;

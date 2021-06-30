@@ -23,10 +23,13 @@ class player_option(models.Model):
     player_year = models.IntegerField(default=2020)
     players_liquid_money = models.FloatField(default=500.0)
     players_total_money = models.FloatField(default=10000.0)
-    march_target = models.FloatField(default=50.0)
-    june_target = models.FloatField(default=100.0)
-    sept_target = models.FloatField(default=150.0)
-    december_target = models.FloatField(default=200.0)
+    worth_target = models.FloatField(default=50.0)
+    action_economy = models.IntegerField(default=5)
+    current_month = models.CharField(max_length=16, default='January')
+    target_month = models.CharField(max_length=16, default="March")
+    
+
+    
 
 class time_tracker(models.Model):
     action_economy = models.IntegerField(default=5)
