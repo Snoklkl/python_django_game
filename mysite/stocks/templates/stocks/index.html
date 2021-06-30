@@ -58,32 +58,45 @@
         </div>
       </div>
       <div class="col-6 left">
-        <div class="container cont-stock">
-        {% for stock in stocks_information %}
-          <h1>
-            {{ stocks_info.stock_symbol }}
-          </h1>
-          <h2>
-            You have {{ stocks_info.amount_owned }} of TBC
-          </h2>
-          <form>
-            <div class="form-group">
-              
-              <label for="buying_stock"> Buy TBC:</label> </br>
-              <input type="text" class="form-control" id="[]_buy" placeholder="0" /> </br>         
-            </div>
-            <button type="submit" class="btn btn-primary mb-2">Confirm Purchase</button>
-          </form>
-          <form>
-            <div class="form-group">
-              
-              <label for="selling_stock"> Sell TBC:</label> </br>
-              <input type="text" class="form-control" id="[]_sell"  placeholder="0" /> </br>
+        
+        {% for stock in stock_info %}
+          
+            <h1>
+              You have {{ stock.amount_owned }} of {{ stock.stock_symbol }}
+            </h1>
+
+
             
-            </div>
-            <button type="submit" class="btn btn-primary mb-2">Confirm Sales</button>
-          </form>
-        </div>
+            
+          
+            
+                <form>
+                  <div class="form-group">
+                    <label for="buying_stock"> Buy stocks of {{ stock.stock_symbol }}:</label> </br>
+                    <input type="text" class="form-control" placeholder="0" /> </br>         
+                  </div>
+                  <button type="submit" class="btn btn-primary mb-2">Confirm Purchase</button>
+                </form>
+
+                <form>
+                  <div class="form-group">
+                      
+                    <label for="selling_stock"> Sell stocks of {{ stock.stock_symbol }}:</label> </br>
+                    <input type="text" class="form-control"  placeholder="0" /> </br>
+                    
+                  </div>
+                  <button type="submit" class="btn btn-danger mb-2">Confirm Sales</button>
+                </form>
+             <div class="end">
+              
+             </div>
+              
+         
+        
+        {% endfor %}
+
+
+        
       </div>
         
     </div>

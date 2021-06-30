@@ -35,12 +35,18 @@
      border-left: 2px solid black;
      text-align: center;
      width: 100vw;
-     height: 100vh;
+     height: 100%;
    }
    
+   .end {
+       border-bottom: 10px solid black;
+       width: 100%;
+   }
    
-   h2{
+   h1{
      text-align: center;
+     margin-top: 1%;
+
    }
    
    .form-group{
@@ -56,9 +62,10 @@
    
    .btn {
      margin: auto;
-     width: 100%;
+     width: 20%;
    }
    
+
    
    .tab button {
     background-color: inherit;
