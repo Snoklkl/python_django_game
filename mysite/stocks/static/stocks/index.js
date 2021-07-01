@@ -24,7 +24,7 @@
     evt.currentTarget.className += " active";
   } 
   
-  
+  /*
    $("#NewsButton").on("click", (function() {
       $.get("https://newsapi.org/v2/everything?q=tesla&language=en&pageSize=2&from=2020-05-028&apiKey=" + newsApi , (function(response){
           console.log(response.articles.length)     
@@ -42,8 +42,8 @@
          }))
    }))
       
-   /*  
-     switch([current_time_int]) {
+  
+     switch() {
         case 1:
          $.get("https://newsapi.org/v2/everything?q=abc&language=en&pageSize=2&from=2020-01-1&to=2020-01-31&q=abcd&apiKey=" + newsApi , (function(response){
            

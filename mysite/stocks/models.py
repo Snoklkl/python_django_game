@@ -17,6 +17,7 @@ class stocks_info(models.Model):
     nov_value = models.FloatField(default=0.0)
     december_value = models.FloatField(default=0.0)
     amount_owned = models.IntegerField(default = 3)
+    past_dec_value = models.FloatField(default=0.0)
  
 
 class player_option(models.Model):
