@@ -3,8 +3,8 @@ from django.db import models
 # Create your models here.
 
 class stocks_info(models.Model):
-    stock_symbol = models.CharField(max_length=5, default="ABC")
     jan_value = models.FloatField(default=0.0)
+    amount_owned = models.IntegerField(default = 3)
     feb_value = models.FloatField(default=0.0)
     mar_value = models.FloatField(default=0.0)
     april_value = models.FloatField(default=0.0)
@@ -16,8 +16,8 @@ class stocks_info(models.Model):
     oct_value = models.FloatField(default=0.0)
     nov_value = models.FloatField(default=0.0)
     december_value = models.FloatField(default=0.0)
-    amount_owned = models.IntegerField(default = 3)
     past_dec_value = models.FloatField(default=0.0)
+    stock_symbol = models.CharField(max_length=20, default="ABC")
  
 
 class player_option(models.Model):
