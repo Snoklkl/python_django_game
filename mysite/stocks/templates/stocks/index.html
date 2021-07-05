@@ -42,7 +42,7 @@
           <div class="row">
             <div class="col-12">
               <div class="tab">
-                <button class="tablinks" onclick="openTab(event,'Chart')">Stock Chart</button>
+                <button id="stockChartButton" class="tablinks" onclick="openTab(event,'Chart')">Stock Chart</button>
                   <button id="NewsButton" class="tablinks" onclick="openTab(event,'News')">Stock News</button>
               </div>
              </div>
@@ -92,17 +92,17 @@
                     <label for="buying_stock"> Buy stocks of {{ stock.stock_symbol }}:</label> </br>
                     <input type="text" class="form-control" placeholder="0" /> </br>         
                   </div>
-                  <button type="submit" class="btn btn-primary mb-2">Confirm Purchase</button>
+                  <button type="submit" id="form-buy-{{ stock.stock_symbol }}" id="btn-buy-{{ stock.stock_symbol }}" onClick="buy-{{ stock.stock_symbol }}()" class="btn btn-primary mb-2">Confirm Purchase</button>
                 </form>
 
                 <form>
                   <div class="form-group">
                       
                     <label for="selling_stock"> Sell stocks of {{ stock.stock_symbol }}:</label> </br>
-                    <input type="text" class="form-control"  placeholder="0" /> </br>
+                    <input type="text" id="form-sell-{{ stock.stock_symbol }}" class="form-control"  placeholder="0" /> </br>
                     
                   </div>
-                  <button type="submit" class="btn btn-danger mb-2">Confirm Sales</button>
+                  <button type="submit" id="btn-sell-{{ stock.stock_symbol }}" onClick="sell-{{ stock.stock_symbol }}()" class="btn btn-danger mb-2">Confirm Sales</button>
                 </form>
              <div class="end">
               
