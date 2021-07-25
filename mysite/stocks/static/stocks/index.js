@@ -1,6 +1,30 @@
 
   const newsApi = "94893aa1d959487f9c5b56e7d1919151";
   
+  function intialize() {
+
+  }
+
+  function buyHD() {
+    var buyData = (getElementById("form-buy-hd")).serialize();
+
+    $.ajax({
+      type: "POST",
+      url: 127.0.0.1:8000,
+      data: buyData,
+      success: function (response) {
+        var purchased = JSON.parse(response)
+        var newOwner = purchased + 
+
+      }
+    })
+
+  }
+
+  function sell(amount) {
+
+
+  }
    
   
   function openTab(evt, tabName) {
