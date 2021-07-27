@@ -5,10 +5,10 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 
 class stockForm(forms.Form):
-    stock_request = forms.IntegerField(label="stock_request")
+    stock_request = forms.IntegerField(label=False, initial=0, max_value=99, min_value=1, required=False)
 
     def clean_data(self):
-        data = self.clean_data['stock_request']
+        data = self.cleaned_data['stock_request']
 
         if data < 1:
             raise ValidationError(_("Invalid amount - must be positive whole numbers."))

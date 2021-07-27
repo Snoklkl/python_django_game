@@ -25,13 +25,15 @@
     <label for="player_year">Desired Year: </label>
     <input id="your_name" type="text" name="your_name">
     <input type="submit" value="OK">
+   
   </form>
 
   
   <nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand " id="ui" href="#">IT IS CURRENTLY {{ current_month }}</a>
-    <a class="navbar-brand " id="ui" href="#">{{ player_name }} , YOU CURRENTLY HAVE {{ current_cash }} IN CASH, AND YOUR NET WORTH IS {{ player_worth }}</a>
+    <a class="navbar-brand " id="ui" href="#">{{ player_name }}, YOU CURRENTLY HAVE {{ current_cash|floatformat:2 }} IN CASH AND YOUR NET WORTH IS {{ player_worth|floatformat:2 }}</a>
     <a class="navbar-brand" id="ui" href="#">YOUR NEXT DEADLINE IS THE BEGINNING OF {{ target_month }}, YOUR NET WORTH MUST BE {{ worth_target }}</a>
+    <a class="navbar-brand" id="ui" href="#">{{error_message}}</a>
   </nav>
   
   
@@ -91,17 +93,23 @@
             
                 <form action = "/buy_{{stock.stock_symbol}}/" method="POST" id="userinput">{% csrf_token %} 
                   <div class="form-group" >
-                    <label for="stock_request"> Buy stocks of {{ stock.stock_symbol }}:</label> </br>
-                    <input type="text" class="form-control" placeholder="0"  id="stock_request"/> </br>         
+                    <label for="buying_stock"> Buy stocks of {{ stock.stock_symbol }}:</label> </br>
+                    
+                    
+                    {{form}}
+                        
                   </div>
                   <button type="submit" id="form-buy-{{ stock.stock_symbol }}"  class="btn btn-primary mb-2">Confirm Purchase</button>
                 </form>
 
-                <form action = "/sell_{{stock.stock_symbol}}" method="POST" id="userform"> {% csrf_token %} 
+                <form action = "/sell_{{stock.stock_symbol}}/" method="POST" id="userform"> {% csrf_token %} 
                   <div class="form-group">
                       
                     <label for="selling_stock"> Sell stocks of {{ stock.stock_symbol }}:</label> </br>
-                    <input type="text" id="form-sell-{{ stock.stock_symbol }}" class="form-control"  placeholder="0" /> </br>
+                    <h5>{{error_sell_HD}} </h5>
+                    <h5>{{error_sell_DIS}} </h5>
+                    <h5>{{error_sell_MSFT}} </h5>
+                    {{form}}
                     
                   </div>
                   <button type="submit" id="btn-sell-{{ stock.stock_symbol }}" onClick="sell-{{ stock.stock_symbol }}()" class="btn btn-danger mb-2">Confirm Sales</button>

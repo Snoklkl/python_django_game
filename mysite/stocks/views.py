@@ -1,5 +1,5 @@
 #Dependencies and imports
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import stocks_info, stock_identity, player_money, player_target, player_option, time_tracker
 
 import sqlite3
@@ -8,6 +8,9 @@ import quandl
 import os.path
 from pathlib import Path
 from .forms import stockForm
+
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
 # import the logging library
 import logging
@@ -49,19 +52,36 @@ con.commit()
 # Create your views here.
 
 def index(request):
+    current_month = 1 
     player_information = player_option.objects.get(id=1)
+    stock_HD = stocks_info.objects.get(id=1)
+    stock_DIS = stocks_info.objects.get(id=2)
+    stock_MSFT = stocks_info.objects.get(id=3)
+    form = stockForm(request.POST)
+   
+    if player_information.action_economy != 1:
+        player_information.action_economy = player_information.action_economy - 1
+    else: 
+        player_information.action_economy = 4
+        current_month = current_month + 1
 
+    
+    """
+    value_HD = stock_HD.current_month
+    value_DIS = stock_DIS.current_month
+    value_MSFT = stock_MSFT.current_month
+    """
+
+    player_worth = player_information.players_liquid_money + (value_HD * stock_HD.amount_owned) + (value_DIS * stock_DIS.amount_owned) + (value_MSFT * stock_MSFT.amount_owned)
     context = {
-     
+        'form': form,
         'player_name': player_information.player_name.upper(),
         'current_cash': player_information.players_liquid_money,
-        'player_worth': player_information.players_total_money,
+        'player_worth': player_worth,
         'current_month': player_information.current_month.upper(),
         'target_month': player_information.target_month.upper(),
         'worth_target': player_information.worth_target, 
         'stock_info' : stocks_info.objects.all(),
-
-
     }
 
     return render(request, 'stocks/index.html', context)
@@ -69,27 +89,231 @@ def index(request):
     
 
 def buy_HD(request):
-    if request.method == "POST": 
-        form =  stockForm(request.POST)
-        if form.is_valid():
-            player_amount = stocks_info.objects.get(id=1)
-            new_HD = form.cleaned_data['stock_request'] + player_amount.amount_owned
-
-            cur.execute("INSERT OR REPLACE INTO stocks_stocks_info (amount_owned) VALUES (?) WHERE id = 1", new_HD)
-            con.commit()
-
-        
-
-
     player_information = player_option.objects.get(id=1)
-    context = {
+    if request.method == "POST": 
+        
+        form = stockForm(request.POST)
+        if form.is_valid():
+            stock_checks = stocks_info.objects.get(id=1)
+            value = stock_checks.jan_value
+            if (form.cleaned_data['stock_request'] * value) < player_information.players_liquid_money:
+                new_HD = form.cleaned_data['stock_request'] + stock_checks.amount_owned
+                BASE_DIR = Path(__file__).resolve().parent.parent
+                db_path = os.path.join(BASE_DIR, "db.sqlite3")
+                con = sqlite3.connect(db_path)
+                cur = con.cursor()
+                new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * value)
+                cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
+                cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 1", (new_HD,))
+                con.commit()
+            else: 
+                error_message = "You don't have enough money for this purchase."
+                
+                context = {
+                'form': form,
+                'player_name': player_information.player_name.upper(),
+                'current_cash': player_information.players_liquid_money,
+                'player_worth': player_information.players_total_money,
+                'current_month': player_information.current_month.upper(),
+                'target_month': player_information.target_month.upper(),
+                'worth_target': player_information.worth_target, 
+                'stock_info' : stocks_info.objects.all(),
+        
+                "error_message": error_message.upper() ,
+                }
 
-        'player_name': player_information.player_name.upper(),
-        'current_cash': player_information.players_liquid_money,
-        'player_worth': player_information.players_total_money,
-        'current_month': player_information.current_month.upper(),
-        'target_month': player_information.target_month.upper(),
-        'worth_target': player_information.worth_target, 
-        'stock_info' : stocks_info.objects.all(),
-    }
-    return render(request, 'stocks/index.html', context)
+                return render(request, 'stocks/index.html', context)
+            
+
+    return redirect('/stocks/')
+
+def sell_HD(request):
+    player_information = player_option.objects.get(id=1)
+    error_message = ""
+    if request.method == "POST": 
+        form = stockForm(request.POST)
+        if form.is_valid():
+            stock_checks = stocks_info.objects.get(id=2)
+            value = stock_checks.jan_value
+            player_amount = stocks_info.objects.get(id=1)
+            if player_amount.amount_owned >= form.cleaned_data['stock_request']:
+                new_HD = player_amount.amount_owned -form.cleaned_data['stock_request']
+                BASE_DIR = Path(__file__).resolve().parent.parent
+                db_path = os.path.join(BASE_DIR, "db.sqlite3")
+                con = sqlite3.connect(db_path)
+                cur = con.cursor()
+                new_money = player_information.players_liquid_money + (form.cleaned_data['stock_request'] * value)
+                cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
+                cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 1", (new_HD,))
+                con.commit()
+            else: 
+                error_message = "You don't have that many to sell!"
+                context = {
+                'form': form,
+                'player_name': player_information.player_name.upper(),
+                'current_cash': player_information.players_liquid_money,
+                'player_worth': player_information.players_total_money,
+                'current_month': player_information.current_month.upper(),
+                'target_month': player_information.target_month.upper(),
+                'worth_target': player_information.worth_target, 
+                'stock_info' : stocks_info.objects.all(),
+        
+                "error_message": error_message.upper() 
+                }
+
+                return render(request, 'stocks/index.html', context)
+
+
+
+    return redirect('/stocks/')
+
+def buy_DIS(request):
+    player_information = player_option.objects.get(id=1)
+    if request.method == "POST": 
+        form = stockForm(request.POST)
+        if form.is_valid():
+            stock_checks = stocks_info.objects.get(id=2)
+            value = stock_checks.jan_value
+            if (form.cleaned_data['stock_request'] * value) < player_information.players_liquid_money:
+                player_amount = stocks_info.objects.get(id=2)
+                new_DIS = form.cleaned_data['stock_request'] + player_amount.amount_owned
+                BASE_DIR = Path(__file__).resolve().parent.parent
+                db_path = os.path.join(BASE_DIR, "db.sqlite3")
+                con = sqlite3.connect(db_path)
+                cur = con.cursor()
+                new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * value)
+                cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
+                cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 2", (new_DIS,))
+                con.commit()
+            else: 
+                error_message = "You don't have enough money for this purchase."
+                context = {
+                'form': form,
+                'player_name': player_information.player_name.upper(),
+                'current_cash': player_information.players_liquid_money,
+                'player_worth': player_information.players_total_money,
+                'current_month': player_information.current_month.upper(),
+                'target_month': player_information.target_month.upper(),
+                'worth_target': player_information.worth_target, 
+                'stock_info' : stocks_info.objects.all(),
+        
+                "error_message": error_message.upper() 
+                }
+
+                return render(request, 'stocks/index.html', context)
+
+    return redirect('/stocks/')
+
+def sell_DIS(request):
+    player_information = player_option.objects.get(id=1)
+    if request.method == "POST": 
+        form = stockForm(request.POST)
+        if form.is_valid():
+            stock_checks = stocks_info.objects.get(id=2)
+            value = stock_checks.jan_value
+            player_amount = stocks_info.objects.get(id=2)
+            if player_amount.amount_owned >= form.cleaned_data['stock_request']:
+
+                new_DIS = form.cleaned_data['stock_request'] + player_amount.amount_owned
+                BASE_DIR = Path(__file__).resolve().parent.parent
+                db_path = os.path.join(BASE_DIR, "db.sqlite3")
+                con = sqlite3.connect(db_path)
+                cur = con.cursor()
+                new_money = player_information.players_liquid_money + (form.cleaned_data['stock_request'] * value)
+                cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
+                cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 2", (new_DIS,))
+                con.commit()
+            else: 
+                error_message = "You don't have that many to sell!"
+                context = {
+                'form': form,
+                'player_name': player_information.player_name.upper(),
+                'current_cash': player_information.players_liquid_money,
+                'player_worth': player_information.players_total_money,
+                'current_month': player_information.current_month.upper(),
+                'target_month': player_information.target_month.upper(),
+                'worth_target': player_information.worth_target, 
+                'stock_info' : stocks_info.objects.all(),
+        
+                "error_message": error_message.upper() 
+                }
+
+                return render(request, 'stocks/index.html', context)
+    return redirect('/stocks/')
+
+
+def buy_MSFT(request):
+    player_information = player_option.objects.get(id=1)
+    if request.method == "POST": 
+        form = stockForm(request.POST)
+        if form.is_valid():
+            stock_checks = stocks_info.objects.get(id=3)
+            value = stock_checks.jan_value
+            if (form.cleaned_data['stock_request'] * value) < player_information.players_liquid_money:
+                player_amount = stocks_info.objects.get(id=3)
+                new_MSFT = form.cleaned_data['stock_request'] + player_amount.amount_owned
+                BASE_DIR = Path(__file__).resolve().parent.parent
+                db_path = os.path.join(BASE_DIR, "db.sqlite3")
+                con = sqlite3.connect(db_path)
+                cur = con.cursor()
+                new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * value)
+                cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
+                cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 3", (new_MSFT,))
+                con.commit()
+
+            else: 
+                error_message = "You don't have enough money for this purchase."
+                context = {
+                'form': form,
+                'player_name': player_information.player_name.upper(),
+                'current_cash': player_information.players_liquid_money,
+                'player_worth': player_information.players_total_money,
+                'current_month': player_information.current_month.upper(),
+                'target_month': player_information.target_month.upper(),
+                'worth_target': player_information.worth_target, 
+                'stock_info' : stocks_info.objects.all(),
+        
+                "error_message": error_message.upper() 
+                }
+
+                return render(request, 'stocks/index.html', context)
+
+    return redirect('/stocks/')
+
+def sell_MSFT(request):
+    player_information = player_option.objects.get(id=1)
+    if request.method == "POST": 
+        form = stockForm(request.POST)
+        if form.is_valid():
+            stock_checks = stocks_info.objects.get(id=2)
+            value = stock_checks.jan_value
+            player_amount = stocks_info.objects.get(id=3)
+            if player_amount.amount_owned >= form.cleaned_data['stock_request']:
+            
+                new_MSFT = form.cleaned_data['stock_request'] + player_amount.amount_owned
+                BASE_DIR = Path(__file__).resolve().parent.parent
+                db_path = os.path.join(BASE_DIR, "db.sqlite3")
+                con = sqlite3.connect(db_path)
+                cur = con.cursor()
+                new_money = player_information.players_liquid_money + (form.cleaned_data['stock_request'] * value)
+                cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
+                cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 3", (new_MSFT,))
+                con.commit()
+            else: 
+                error_message = "You don't have that many to sell!"
+                context = {
+                'form': form,
+                'player_name': player_information.player_name.upper(),
+                'current_cash': player_information.players_liquid_money,
+                'player_worth': player_information.players_total_money,
+                'current_month': player_information.current_month.upper(),
+                'target_month': player_information.target_month.upper(),
+                'worth_target': player_information.worth_target, 
+                'stock_info' : stocks_info.objects.all(),
+        
+                "error_message": error_message.upper() 
+                }
+
+                return render(request, 'stocks/index.html', context)
+
+    return redirect('/stocks/')
