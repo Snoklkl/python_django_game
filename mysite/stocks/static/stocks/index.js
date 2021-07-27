@@ -4,14 +4,17 @@
   function intialize() {
 
   }
+  
 
-  function buyHD() {
+  function buyHD() { 
     var buyData = (getElementById("form-buy-hd")).serialize();
 
+
+    
     $.ajax({
       type: "POST",
-      url: 127.0.0.1:8000,
-      data: buyData,
+      url: "127.0.0.1:8000",
+      data: JSON.stringify({ :this.amountOwned}),
       success: function (response) {
         var purchased = JSON.parse(response)
         var newOwner = purchased + 
@@ -20,6 +23,7 @@
     })
 
   }
+  
 
   function sell(amount) {
 

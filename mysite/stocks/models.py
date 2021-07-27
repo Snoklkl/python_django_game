@@ -33,8 +33,10 @@ class player_option(models.Model):
 
     
 
-    
 
+
+
+#unusedmodels
 class time_tracker(models.Model):
     action_economy = models.IntegerField(default=5)
     current_month = models.CharField(max_length=16, default='January')

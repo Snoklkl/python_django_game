@@ -43,7 +43,9 @@
             <div class="col-12">
               <div class="tab">
                 <button id="stockChartButton" class="tablinks" onclick="openTab(event,'Chart')">Stock Chart</button>
+                <div class="tab">
                   <button id="NewsButton" class="tablinks" onclick="openTab(event,'News')">Stock News</button>
+                  </div>>
               </div>
              </div>
            </div>
@@ -79,7 +81,7 @@
         {% for stock in stock_info %}
           
             <h1>
-              {{ stock.stock_symbol }} is worth {{}}. You have {{ stock.amount_owned }} of {{ stock.stock_symbol }}
+              {{ stock.stock_symbol }} is worth {{ stock.jan_value }}. You have {{ stock.amount_owned }} of {{ stock.stock_symbol }}
             </h1>
 
 
@@ -87,15 +89,15 @@
             
           
             
-                <form>
-                  <div class="form-group">
-                    <label for="buying_stock"> Buy stocks of {{ stock.stock_symbol }}:</label> </br>
-                    <input type="text" class="form-control" placeholder="0" /> </br>         
+                <form action = "/buy_{{stock.stock_symbol}}/" method="POST" id="userinput">{% csrf_token %} 
+                  <div class="form-group" >
+                    <label for="stock_request"> Buy stocks of {{ stock.stock_symbol }}:</label> </br>
+                    <input type="text" class="form-control" placeholder="0"  id="stock_request"/> </br>         
                   </div>
-                  <button type="submit" id="form-buy-{{ stock.stock_symbol }}" id="btn-buy-{{ stock.stock_symbol }}" onClick="buy-{{ stock.stock_symbol }}()" class="btn btn-primary mb-2">Confirm Purchase</button>
+                  <button type="submit" id="form-buy-{{ stock.stock_symbol }}"  class="btn btn-primary mb-2">Confirm Purchase</button>
                 </form>
 
-                <form>
+                <form action = "/sell_{{stock.stock_symbol}}" method="POST" id="userform"> {% csrf_token %} 
                   <div class="form-group">
                       
                     <label for="selling_stock"> Sell stocks of {{ stock.stock_symbol }}:</label> </br>
