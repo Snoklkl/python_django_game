@@ -52,7 +52,7 @@ con.commit()
 # Create your views here.
 
 def index(request):
-    current_month = 1 
+    current_month = 2
     player_information = player_option.objects.get(id=1)
     stock_HD = stocks_info.objects.get(id=1)
     stock_DIS = stocks_info.objects.get(id=2)
@@ -60,58 +60,55 @@ def index(request):
     form = stockForm(request.POST)
    
     if player_information.action_economy != 1:
-        player_information.action_economy = player_information.action_economy - 1
+        ""
     else: 
-        player_information.action_economy = 4
-        current_month = current_month + 1
-        if current_month == 2:
-            value_HD = stock_HD.jan_value
-            value_DIS = stock_DIS.jan_value
-            value_MSFT = stock_MSFT.jan_value
-        elif current_month == 3:
-            value_HD = stock_HD.feb_value
-            value_DIS = stock_DIS.feb_value
-            value_MSFT = stock_MSFT.feb_value
+        cur.execute("UPDATE stocks_player_information SET action_economy = (?) WHERE id = 1", (5))
+        current_month = current_month + 1 
+        if current_month == 3:
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("February",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.feb_value, stock_DIS.feb_value, stock_MSFT.feb_value))
+            con.commit()
         elif current_month == 4:
-            value_HD = stock_HD.mar_value
-            value_DIS = stock_DIS.mar_value
-            value_MSFT = stock_MSFT.mar_value
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("March",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.mar_value, stock_DIS.mar_value, stock_MSFT.mar_value))
+            con.commit()
         elif current_month == 5:
-            value_HD = stock_HD.april_value
-            value_DIS = stock_DIS.april_value
-            value_MSFT = stock_MSFT.april_value
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("April",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.april_value, stock_DIS.april_value, stock_MSFT.april_value))
+            con.commit()
         elif current_month == 6:
-            value_HD = stock_HD.may_value
-            value_DIS = stock_DIS.may_value
-            value_MSFT = stock_MSFT.may_value
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("May",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.may_value, stock_DIS.may_value, stock_MSFT.may_value))
+            con.commit()
+            player_information.current_month = "May"
         elif current_month == 7:
-            value_HD = stock_HD.june_value
-            value_DIS = stock_DIS.june_value
-            value_MSFT = stock_MSFT.june_value
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("June",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.june_value, stock_DIS.june_value, stock_MSFT.june_value))
+            con.commit()
         elif current_month == 8:
-            value_HD = stock_HD.july_value
-            value_DIS = stock_DIS.july_value
-            value_MSFT = stock_MSFT.july_value
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("July",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.july_value, stock_DIS.july_value, stock_MSFT.july_value))
+            con.commit()
         elif current_month == 9:
-            value_HD = stock_HD.aug_value
-            value_DIS = stock_DIS.aug_value
-            value_MSFT = stock_MSFT.aug_value
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("August",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.aug_value, stock_DIS.aug_value, stock_MSFT.aug_value))
+            con.commit()
         elif current_month == 10:
-            value_HD = stock_HD.sept_value
-            value_DIS = stock_DIS.sept_value
-            value_MSFT = stock_MSFT.sept_value
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("September",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.sept_value, stock_DIS.sept_value, stock_MSFT.sept_value))
+            con.commit()
         elif current_month == 11:
-            value_HD = stock_HD.oct_value
-            value_DIS = stock_DIS.oct_value
-            value_MSFT = stock_MSFT.oct_value
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("October",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.oct_value, stock_DIS.oct_value, stock_MSFT.oct_value))
+            con.commit()
         elif current_month == 12:
-            value_HD = stock_HD.nov_value
-            value_DIS = stock_DIS.nov_value
-            value_MSFT = stock_MSFT.nov_value
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("November",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.nov_value, stock_DIS.nov_value, stock_MSFT.nov_value))
+            con.commit()
         elif current_month == 13:
-            value_HD = stock_HD.december_value
-            value_DIS = stock_DIS.december_value
-            value_MSFT = stock_MSFT.december_value
+            cur.execute("UPDATE stocks_player_information SET current_month = (?) WHERE id = 1", ("December",))
+            cur.executemany("UPDATE stocks_stock_info SET current_value = (?, ?, ?) WHERE id=1-3", (stock_HD.december_value, stock_DIS.december_value, stock_MSFT.december_value))
+            con.commit()
         else:
             value_HD = ""
         
@@ -148,10 +145,13 @@ def buy_HD(request):
                 db_path = os.path.join(BASE_DIR, "db.sqlite3")
                 con = sqlite3.connect(db_path)
                 cur = con.cursor()
+                action_economy = player_information.action_economy - 1
                 new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * value)
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 1", (new_HD,))
+                cur.execute("UPDATE stocks_player_option SET players_action_economy = ? WHERE id = 1", (action_economy,))
                 con.commit()
+                
             else: 
                 error_message = "You don't have enough money for this purchase."
                 
@@ -188,10 +188,13 @@ def sell_HD(request):
                 db_path = os.path.join(BASE_DIR, "db.sqlite3")
                 con = sqlite3.connect(db_path)
                 cur = con.cursor()
+                action_economy = player_information.action_economy - 1
                 new_money = player_information.players_liquid_money + (form.cleaned_data['stock_request'] * value)
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 1", (new_HD,))
+                cur.execute("UPDATE stocks_player_option SET players_action_economy = ? WHERE id = 1", (action_economy,))
                 con.commit()
+               
             else: 
                 error_message = "You don't have that many to sell!"
                 context = {
@@ -227,9 +230,11 @@ def buy_DIS(request):
                 db_path = os.path.join(BASE_DIR, "db.sqlite3")
                 con = sqlite3.connect(db_path)
                 cur = con.cursor()
+                action_economy = player_information.action_economy - 1
                 new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * value)
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 2", (new_DIS,))
+                cur.execute("UPDATE stocks_player_option SET players_action_economy = ? WHERE id = 1", (action_economy,))
                 con.commit()
             else: 
                 error_message = "You don't have enough money for this purchase."
@@ -265,9 +270,11 @@ def sell_DIS(request):
                 db_path = os.path.join(BASE_DIR, "db.sqlite3")
                 con = sqlite3.connect(db_path)
                 cur = con.cursor()
+                action_economy = player_information.action_economy - 1
                 new_money = player_information.players_liquid_money + (form.cleaned_data['stock_request'] * value)
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 2", (new_DIS,))
+                cur.execute("UPDATE stocks_player_option SET players_action_economy = ? WHERE id = 1", (action_economy,))
                 con.commit()
             else: 
                 error_message = "You don't have that many to sell!"
@@ -302,9 +309,11 @@ def buy_MSFT(request):
                 db_path = os.path.join(BASE_DIR, "db.sqlite3")
                 con = sqlite3.connect(db_path)
                 cur = con.cursor()
+                action_economy = player_information.action_economy - 1
                 new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * value)
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 3", (new_MSFT,))
+                cur.execute("UPDATE stocks_player_option SET players_action_economy = ? WHERE id = 1", (action_economy,))
                 con.commit()
 
             else: 
@@ -341,9 +350,11 @@ def sell_MSFT(request):
                 db_path = os.path.join(BASE_DIR, "db.sqlite3")
                 con = sqlite3.connect(db_path)
                 cur = con.cursor()
+                action_economy = player_information.action_economy - 1
                 new_money = player_information.players_liquid_money + (form.cleaned_data['stock_request'] * value)
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 3", (new_MSFT,))
+                cur.execute("UPDATE stocks_player_option SET players_action_economy = ? WHERE id = 1", (action_economy,))
                 con.commit()
             else: 
                 error_message = "You don't have that many to sell!"
