@@ -18,6 +18,7 @@ class stocks_info(models.Model):
     december_value = models.FloatField(default=0.0)
     past_dec_value = models.FloatField(default=0.0)
     stock_symbol = models.CharField(max_length=20, default="ABC")
+    current_value = models.FloatField(default=0.0)
  
 
 class player_option(models.Model):

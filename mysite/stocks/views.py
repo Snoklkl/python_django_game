@@ -64,13 +64,59 @@ def index(request):
     else: 
         player_information.action_economy = 4
         current_month = current_month + 1
+        if current_month == 2:
+            value_HD = stock_HD.jan_value
+            value_DIS = stock_DIS.jan_value
+            value_MSFT = stock_MSFT.jan_value
+        elif current_month == 3:
+            value_HD = stock_HD.feb_value
+            value_DIS = stock_DIS.feb_value
+            value_MSFT = stock_MSFT.feb_value
+        elif current_month == 4:
+            value_HD = stock_HD.mar_value
+            value_DIS = stock_DIS.mar_value
+            value_MSFT = stock_MSFT.mar_value
+        elif current_month == 5:
+            value_HD = stock_HD.april_value
+            value_DIS = stock_DIS.april_value
+            value_MSFT = stock_MSFT.april_value
+        elif current_month == 6:
+            value_HD = stock_HD.may_value
+            value_DIS = stock_DIS.may_value
+            value_MSFT = stock_MSFT.may_value
+        elif current_month == 7:
+            value_HD = stock_HD.june_value
+            value_DIS = stock_DIS.june_value
+            value_MSFT = stock_MSFT.june_value
+        elif current_month == 8:
+            value_HD = stock_HD.july_value
+            value_DIS = stock_DIS.july_value
+            value_MSFT = stock_MSFT.july_value
+        elif current_month == 9:
+            value_HD = stock_HD.aug_value
+            value_DIS = stock_DIS.aug_value
+            value_MSFT = stock_MSFT.aug_value
+        elif current_month == 10:
+            value_HD = stock_HD.sept_value
+            value_DIS = stock_DIS.sept_value
+            value_MSFT = stock_MSFT.sept_value
+        elif current_month == 11:
+            value_HD = stock_HD.oct_value
+            value_DIS = stock_DIS.oct_value
+            value_MSFT = stock_MSFT.oct_value
+        elif current_month == 12:
+            value_HD = stock_HD.nov_value
+            value_DIS = stock_DIS.nov_value
+            value_MSFT = stock_MSFT.nov_value
+        elif current_month == 13:
+            value_HD = stock_HD.december_value
+            value_DIS = stock_DIS.december_value
+            value_MSFT = stock_MSFT.december_value
+        else:
+            value_HD = ""
+        
 
     
-    """
-    value_HD = stock_HD.current_month
-    value_DIS = stock_DIS.current_month
-    value_MSFT = stock_MSFT.current_month
-    """
 
     player_worth = player_information.players_liquid_money + (value_HD * stock_HD.amount_owned) + (value_DIS * stock_DIS.amount_owned) + (value_MSFT * stock_MSFT.amount_owned)
     context = {
