@@ -4,6 +4,7 @@ from . import views
 app_name = 'stocks'
 
 urlpatterns = [
+    path('start/', views.configStart),
     path('stocks/', views.index),
     path('buy_HD/', views.buy_HD),
     path('buy_DIS/', views.buy_DIS),

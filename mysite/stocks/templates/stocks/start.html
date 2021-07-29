@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">`
+
+  <title>STOCKS</title>
+  <meta name="description" content="THE STOCK GAME">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  {% load static %}
+
+  <link rel="stylesheet" type="text/css" href="{% static '/stocks/style.css' %}">
+
+</head>
+
+<body>
+    <form action = "" method = "POST">
+        {% csrf_token %} 
+        <label for="your_name">Your name: </label>
+        <input id="your_name" type="text" name="your_name">
+        <input type="submit" value="OK">
+    
+        <label for="player_year">Desired Year: </label>
+        <input id="your_name" type="text" name="your_name">
+        <input type="submit" value="OK">
+       
+      </form>
+</body>
