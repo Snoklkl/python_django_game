@@ -1,7 +1,7 @@
 #Dependencies and imports
 from django.shortcuts import redirect, render
 from .models import stocks_info, stock_identity, player_money, player_target, player_option, time_tracker
-
+from django.http import JsonResponse 
 import sqlite3
 
 import quandl
@@ -19,10 +19,105 @@ db_path = os.path.join(BASE_DIR, "db.sqlite3")
 con = sqlite3.connect(db_path)
 cur = con.cursor()
 
-# Create your views here.
 
-def configStart(request):
-    
+def gethd(request):
+    player_information = player_option.objects.get(id=1)
+    stock_HD = stocks_info.objects.get(id=1)
+    if player_information.current_month == "January":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value]
+    elif player_information.current_month == "February":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value]
+    elif player_information.current_month == "March":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value, stock_HD.mar_value]
+    elif player_information.current_month == "April":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value, stock_HD.mar_value, stock_HD.april_value]
+    elif player_information.current_month == "May":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value, stock_HD.mar_value, stock_HD.april_value, stock_HD.may_value]
+    elif player_information.current_month == "June":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value, stock_HD.mar_value, stock_HD.april_value, stock_HD.may_value, stock_HD.june_value]
+    elif player_information.current_month == "July":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value, stock_HD.mar_value, stock_HD.april_value, stock_HD.may_value, stock_HD.june_value, stock_HD.july_value]
+    elif player_information.current_month == "August":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value, stock_HD.mar_value, stock_HD.april_value, stock_HD.may_value, stock_HD.june_value, stock_HD.july_value, stock_HD.aug_value]
+    elif player_information.current_month == "September":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value, stock_HD.mar_value, stock_HD.april_value, stock_HD.may_value, stock_HD.june_value, stock_HD.july_value, stock_HD.aug_value, stock_HD.sept_value]
+    elif player_information.current_month == "October":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value, stock_HD.mar_value, stock_HD.april_value, stock_HD.may_value, stock_HD.june_value, stock_HD.july_value, stock_HD.aug_value, stock_HD.sept_value, stock_HD.oct_value]
+    elif player_information.current_month == "November":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value, stock_HD.mar_value, stock_HD.april_value, stock_HD.may_value, stock_HD.june_value, stock_HD.july_value, stock_HD.aug_value, stock_HD.sept_value, stock_HD.oct_value, stock_HD.nov_value]
+    elif player_information.current_month == "December":
+        array = [stock_HD.past_dec_value, stock_HD.jan_value, stock_HD.feb_value, stock_HD.mar_value, stock_HD.april_value, stock_HD.may_value, stock_HD.june_value, stock_HD.july_value, stock_HD.aug_value, stock_HD.sept_value, stock_HD.oct_value, stock_HD.nov_value, stock_HD.december_value]
+
+    return JsonResponse({'array': array})
+
+def getdis(request):
+    player_information = player_option.objects.get(id=1)
+    stock_DIS = stocks_info.objects.get(id=2)
+    if player_information.current_month == "January":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value]
+    elif player_information.current_month == "February":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value]
+    elif player_information.current_month == "March":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value, stock_DIS.mar_value]
+    elif player_information.current_month == "April":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value, stock_DIS.mar_value, stock_DIS.april_value]
+    elif player_information.current_month == "May":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value, stock_DIS.mar_value, stock_DIS.april_value, stock_DIS.may_value]
+    elif player_information.current_month == "June":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value, stock_DIS.mar_value, stock_DIS.april_value, stock_DIS.may_value, stock_DIS.june_value]
+    elif player_information.current_month == "July":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value, stock_DIS.mar_value, stock_DIS.april_value, stock_DIS.may_value, stock_DIS.june_value, stock_DIS.july_value]
+    elif player_information.current_month == "August":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value, stock_DIS.mar_value, stock_DIS.april_value, stock_DIS.may_value, stock_DIS.june_value, stock_DIS.july_value, stock_DIS.aug_value]
+    elif player_information.current_month == "September":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value, stock_DIS.mar_value, stock_DIS.april_value, stock_DIS.may_value, stock_DIS.june_value, stock_DIS.july_value, stock_DIS.aug_value, stock_DIS.sept_value]
+    elif player_information.current_month == "October":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value, stock_DIS.mar_value, stock_DIS.april_value, stock_DIS.may_value, stock_DIS.june_value, stock_DIS.july_value, stock_DIS.aug_value, stock_DIS.sept_value, stock_DIS.oct_value]
+    elif player_information.current_month == "November":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value, stock_DIS.mar_value, stock_DIS.april_value, stock_DIS.may_value, stock_DIS.june_value, stock_DIS.july_value, stock_DIS.aug_value, stock_DIS.sept_value, stock_DIS.oct_value, stock_DIS.nov_value]
+    elif player_information.current_month == "December":
+        array = [stock_DIS.past_dec_value, stock_DIS.jan_value, stock_DIS.feb_value, stock_DIS.mar_value, stock_DIS.april_value, stock_DIS.may_value, stock_DIS.june_value, stock_DIS.july_value, stock_DIS.aug_value, stock_DIS.sept_value, stock_DIS.oct_value, stock_DIS.nov_value, stock_DIS.december_value]
+
+    return JsonResponse({'array': array})
+
+def getmsft(request):
+    player_information = player_option.objects.get(id=1)
+    stock_MSFT = stocks_info.objects.get(id=3)
+    if player_information.current_month == "January":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value]
+    elif player_information.current_month == "February":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value]
+    elif player_information.current_month == "March":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value]
+    elif player_information.current_month == "April":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value]
+    elif player_information.current_month == "May":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value, stock_MSFT.may_value]
+    elif player_information.current_month == "June":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value, stock_MSFT.may_value, stock_MSFT.june_value]
+    elif player_information.current_month == "July":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value, stock_MSFT.may_value, stock_MSFT.june_value, stock_MSFT.july_value]
+    elif player_information.current_month == "August":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value, stock_MSFT.may_value, stock_MSFT.june_value, stock_MSFT.july_value, stock_MSFT.aug_value]
+    elif player_information.current_month == "September":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value, stock_MSFT.may_value, stock_MSFT.june_value, stock_MSFT.july_value, stock_MSFT.aug_value, stock_MSFT.sept_value]
+    elif player_information.current_month == "October":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value, stock_MSFT.may_value, stock_MSFT.june_value, stock_MSFT.july_value, stock_MSFT.aug_value, stock_MSFT.sept_value, stock_MSFT.oct_value]
+    elif player_information.current_month == "November":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value, stock_MSFT.may_value, stock_MSFT.june_value, stock_MSFT.july_value, stock_MSFT.aug_value, stock_MSFT.sept_value, stock_MSFT.oct_value, stock_MSFT.nov_value]
+    elif player_information.current_month == "December":
+        array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value, stock_MSFT.may_value, stock_MSFT.june_value, stock_MSFT.july_value, stock_MSFT.aug_value, stock_MSFT.sept_value, stock_MSFT.oct_value, stock_MSFT.nov_value, stock_MSFT.december_value]
+
+    return JsonResponse({'array': array})
+
+
+
+def restart(request): 
+    player_information = player_option.objects.get(id=1)
+    stock_HD = stocks_info.objects.get(id=1)
+    stock_DIS = stocks_info.objects.get(id=2)
+    stock_MSFT = stocks_info.objects.get(id=3)
+
     BASE_DIR = Path(__file__).resolve().parent.parent
     db_path = os.path.join(BASE_DIR, "db.sqlite3")
     con = sqlite3.connect(db_path)
@@ -41,34 +136,125 @@ def configStart(request):
     stock_database_info_3 = [3,  data_3[1][1], 8, data_3[2][1], data_3[3][1], data_3[4][1], data_3[5][1], data_3[6][1], data_3[7][1], data_3[8][1], data_3[9][1], data_3[10][1], data_3[11][1], data_3[12][1], data_3[0][1], query_3, data_1[1][1]] 
    
     cur.executemany("INSERT OR REPLACE INTO stocks_stocks_info (id, jan_value, amount_owned, feb_value, mar_value, april_value, may_value, june_value, july_value, aug_value, sept_value, oct_value, nov_value, december_value, past_dec_value, stock_symbol, current_value) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [stock_database_info_1, stock_database_info_2, stock_database_info_3])
-    """cur.execute("UPDATE stocks_stocks_info SET current_value = (?) WHERE id = 1", (stock_HD.jan_value,)) 
-    cur.execute("UPDATE stocks_stocks_info SET current_value = (?) WHERE id = 2", (stock_DIS.jan_value,))
-    cur.execute("UPDATE stocks_stocks_info SET current_value = (?) WHERE id = 3", (stock_MSFT.jan_value,))
-    cur.execute("UPDATE stocks_stocks_info SET amount_owned = (?) WHERE id = 1", (3)) 
-    cur.execute("UPDATE stocks_stocks_info SET amount_owned = (?) WHERE id = 2", (5))
-    cur.execute("UPDATE stocks_stocks_info SET amount_owned = (?) WHERE id = 3", (8))
-    con.commit()"""
 
-    action_reset = 4
+    action_reset = 1
     month_reset = "January"
     money_reset = 500
     cur.execute("UPDATE stocks_player_option SET (action_economy, current_month, players_liquid_money) = (?, ?, ?) WHERE id = 1", (action_reset, month_reset, money_reset)) 
     con.commit()
+    player_worth = player_information.players_liquid_money + (stock_HD.current_value * stock_HD.amount_owned) + (stock_DIS.current_value * stock_DIS.amount_owned) + (stock_MSFT.current_value * stock_MSFT.amount_owned)
+    worth_target = player_worth * (1.05)
+    cur.execute("UPDATE stocks_player_option SET (worth_target) = (?) WHERE id = 1", (worth_target,)) 
+    con.commit()
+
+    return redirect('/stocks/')
 
 
+def configStart(request):
+    player_information = player_option.objects.get(id=1)
+    stock_HD = stocks_info.objects.get(id=1)
+    stock_DIS = stocks_info.objects.get(id=2)
+    stock_MSFT = stocks_info.objects.get(id=3)
 
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    db_path = os.path.join(BASE_DIR, "db.sqlite3")
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+    query_1 = "HD"
+    query_2 = "DIS"
+    query_3 = "MSFT"
 
+    quandl.ApiConfig.api_key = "Hx9MtbnfaWgzw9knX7Ao"
+
+    data_1 = quandl.get("EOD/" + query_1, start_date = "2014-12-1", end_date = "2015-12-1", collapse="monthly", rows=13, column_index = 1, returns="numpy")
+    data_2 = quandl.get("EOD/" + query_2, start_date = "2014-12-1", end_date = "2015-12-1", collapse="monthly", rows=13, column_index = 1, returns="numpy")
+    data_3 = quandl.get("EOD/" + query_3, start_date = "2014-12-1", end_date = "2015-12-1", collapse="monthly", rows=13, column_index = 1, returns="numpy")
+    stock_database_info_1 = [1, data_1[1][1], 3, data_1[2][1], data_1[3][1], data_1[4][1], data_1[5][1], data_1[6][1], data_1[7][1], data_1[8][1], data_1[9][1], data_1[10][1], data_1[11][1], data_1[12][1], data_1[0][1], query_1, data_1[1][1]] 
+    stock_database_info_2 = [2, data_2[1][1], 5, data_2[2][1], data_2[3][1], data_2[4][1], data_2[5][1], data_2[6][1], data_2[7][1], data_2[8][1], data_2[9][1], data_2[10][1], data_2[11][1], data_2[12][1], data_2[0][1], query_2, data_1[1][1]] 
+    stock_database_info_3 = [3,  data_3[1][1], 8, data_3[2][1], data_3[3][1], data_3[4][1], data_3[5][1], data_3[6][1], data_3[7][1], data_3[8][1], data_3[9][1], data_3[10][1], data_3[11][1], data_3[12][1], data_3[0][1], query_3, data_1[1][1]] 
+   
+    cur.executemany("INSERT OR REPLACE INTO stocks_stocks_info (id, jan_value, amount_owned, feb_value, mar_value, april_value, may_value, june_value, july_value, aug_value, sept_value, oct_value, nov_value, december_value, past_dec_value, stock_symbol, current_value) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [stock_database_info_1, stock_database_info_2, stock_database_info_3])
+    action_reset = 1
+    month_reset = "January"
+    money_reset = 500
+    cur.execute("UPDATE stocks_player_option SET (action_economy, current_month, players_liquid_money) = (?, ?, ?) WHERE id = 1", (action_reset, month_reset, money_reset)) 
+    player_worth = player_information.players_liquid_money + (stock_HD.current_value * stock_HD.amount_owned) + (stock_DIS.current_value * stock_DIS.amount_owned) + (stock_MSFT.current_value * stock_MSFT.amount_owned)
+    worth_target = player_worth * (1.05)
+    cur.execute("UPDATE stocks_player_option SET (worth_target) = (?) WHERE id = 1", (worth_target,)) 
+    con.commit()
     return render(request, "stocks/start.html")
 
+def failState(request):
+    stock_HD = stocks_info.objects.get(id=1)
+    stock_DIS = stocks_info.objects.get(id=2)
+    stock_MSFT = stocks_info.objects.get(id=3)
+    player_information = player_option.objects.get(id=1)
+    player_worth = player_information.players_liquid_money + (stock_HD.current_value * stock_HD.amount_owned) + (stock_DIS.current_value * stock_DIS.amount_owned) + (stock_MSFT.current_value * stock_MSFT.amount_owned)
+    stock_HD = stocks_info.objects.get(id=1)
+    stock_DIS = stocks_info.objects.get(id=2)
+    stock_MSFT = stocks_info.objects.get(id=3)
+    form = stockForm(request.POST)
+
+    context = {
+        'action': player_information.action_economy,
+        'form': form,
+        'player_name': player_information.player_name.upper(),
+        'current_cash': player_information.players_liquid_money,
+        'player_worth': player_worth,
+        'current_month': player_information.current_month.upper(),
+        'target_month': player_information.target_month.upper(),
+        'worth_target': player_information.worth_target, 
+        'stock_info' : stocks_info.objects.all(),
+    }
+
+    return render(request, "stocks/loss.html", context)
+
 def index(request):
-    current_month = 2 
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    db_path = os.path.join(BASE_DIR, "db.sqlite3")
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
     player_information = player_option.objects.get(id=1)
     stock_HD = stocks_info.objects.get(id=1)
     stock_DIS = stocks_info.objects.get(id=2)
     stock_MSFT = stocks_info.objects.get(id=3)
     form = stockForm(request.POST)
-    
     player_worth = player_information.players_liquid_money + (stock_HD.current_value * stock_HD.amount_owned) + (stock_DIS.current_value * stock_DIS.amount_owned) + (stock_MSFT.current_value * stock_MSFT.amount_owned)
+    
+    if player_information.current_month == "April" and player_information.action_economy == 1:
+        if player_information.worth_target > player_worth:
+            return redirect("/loss/")
+        else:
+            worth_target = player_information.worth_target * (1.2)
+            target_month = "July"
+            cur.execute("UPDATE stocks_player_option SET (target_month) = (?) WHERE id = 1", (target_month,))
+            cur.execute("UPDATE stocks_player_option SET (worth_target) = (?) WHERE id = 1", (worth_target,)) 
+            con.commit()
+    elif player_information.current_month == "July" and player_information.action_economy == 1:
+        if player_information.worth_target > player_worth:
+            return redirect("/loss/")
+        else:
+            target_month = "October"
+            cur.execute("UPDATE stocks_player_option SET (target_month) = (?) WHERE id = 1", (target_month,))
+            worth_target = player_worth * (1.1)
+            cur.execute("UPDATE stocks_player_option SET (worth_target) = (?) WHERE id = 1", (worth_target)) 
+            con.commit()
+    elif player_information.current_month == "October" and player_information.action_economy == 1:
+        if player_information.worth_target > player_worth:
+            return redirect("/loss/")
+        else:
+            target_month = "Jan_NewYear"
+            cur.execute("UPDATE stocks_player_option SET (target_month) = (?) WHERE id = 1", (target_month,))
+            worth_target = player_worth * (1.1)
+            cur.execute("UPDATE stocks_player_option SET (worth_target) = (?) WHERE id = 1", (worth_target)) 
+            con.commit()
+    elif player_information.current_month == "Jan_NewYear":
+        if player_information.worth_target > player_worth:
+            return redirect("/loss/")
+        else:
+            worth_target = player_worth * (1.25)
+            cur.execute("UPDATE stocks_player_option SET (worth_target) = (?) WHERE id = 1", (worth_target)) 
+            con.commit()
 
     context = {
         'action': player_information.action_economy,
@@ -187,7 +373,8 @@ def buy_HD(request):
                         cur.execute("UPDATE stocks_stocks_info SET current_value = (?) WHERE id = 3", (stock_MSFT.december_value,))
                         con.commit()
                     else:
-                        value_HD = ""
+                        cur.execute("UPDATE stocks_player_option SET current_month = (?) WHERE id = 1", ("End",))
+                        con.commit()
                 
             else: 
                 error_message = "You don't have enough money for this purchase."
@@ -226,7 +413,7 @@ def sell_HD(request):
                 con = sqlite3.connect(db_path)
                 cur = con.cursor()
                 action_economy = player_information.action_economy + 1
-                new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * stock_HD.current_value)
+                new_money = player_information.players_liquid_money + (form.cleaned_data['stock_request'] * stock_HD.current_value)
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 1", (new_HD,))
                 cur.execute("UPDATE stocks_player_option SET action_economy = ? WHERE id = 1", (action_economy,))

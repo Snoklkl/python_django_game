@@ -21,49 +21,25 @@
       <nav class="col navbar navbar-dark bg-dark">
         <div class="navbar-brand " id="ui" >IT IS WEEK {{action}} OF {{ current_month }}</div>
         <div class="navbar-brand " id="ui" >YOU HAVE ${{ current_cash|floatformat:2 }} IN CASH AND YOUR NET WORTH IS ${{ player_worth|floatformat:2 }}</div>
-        <div class="navbar-brand" id="ui" >YOUR NET WORTH MUST BE ${{ worth_target }} BY {{ target_month}}</div>
+        <div class="navbar-brand" id="ui" >YOUR NET WORTH MUST BE ${{ worth_target|floatformat:2 }} BY {{ target_month}}</div>
         <div class="navbar-brand" id="error" >{{error_message}}</div>
-        <a class="btn-sm btn-dark" id="resetbutton" href="/start/"> RETRY? </a>
+        <a class="btn-sm btn-dark" id="resetbutton" href="/retry/"> RETRY? </a>
       </nav>
     </div>
   </div>
-  
-  
   <div class="container main-cont">
     <div class="row">
       <div class="col-6">
-          <div class="row">
-            <div class="col">
-              <div class="tab">
-                <button id="stockChartButton" class="tablinks" onclick="openTab(event,'Chart')">Stock Chart</button>
-                <div class="tab">
-                  <button id="NewsButton" class="tablinks" onclick="openTab(event,'News')">Stock News</button>
-                  </div>
-              </div>
-             </div>
-           </div>
-
-           <div id="News" class="tabcontent">
+          
               
-            <h1>
-            UNDER CONSTRUCTION
-
-            {{ data_1 }}
-
-            {{ data_conf }}
-
-            </h1>
-          </div>
-
           
           {% for stock in stock_info %}
             
 
-            
+          <h1> {{ stock.stock_symbol }}</h1>
 
-            <div id="Chart" class="tabcontent">
-              <h1> {{ stock.stock_symbol }}</h1>
-              <canvas id="myChart">  </canvas>
+            <div>
+              <canvas id="myChart_{{stock.stock_symbol}}" class="Chart"></canvas>
             </div>
 
           {% endfor %}  
@@ -111,26 +87,157 @@
               
          
         
-        {% endfor %}
-
-
-        
+        {% endfor %}        
       </div>
-        
     </div>
    </div>
- 
-  
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-  <script
-			  src="https://code.jquery.com/jquery-3.6.0.min.js"
-			  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-			  crossorigin="anonymous"></script>
-  
-
-
-
   <script src="{% static '/stocks/index.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  {% for stock in stock_info %}
+  
+  <script>
+    $.ajax({
+    type: "GET",
+    url: '/gethd/',
+    success: function(response){
+        success_HD = response.array 
+        console.log(response.array)
+        var ctx = document.getElementById('myChart_HD');
+      var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: ["Past_Dec", "Jan", "Feb", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          datasets: [{
+              label: 'Stock Price in $',
+              data: success_HD,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+        // handle any errors here
+    }
+});
+$.ajax({
+    type: "GET",
+    url: '/getdis/',
+    success: function(response){
+        success_HD = response.array 
+        console.log(response.array)
+        var ctx = document.getElementById('myChart_DIS');
+      var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: ["Past_Dec", "Jan", "Feb", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          datasets: [{
+              label: 'Stock Price in $',
+              data: success_HD,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+        // handle any errors here
+    }
+});
+$.ajax({
+    type: "GET",
+    url: '/getmsft/',
+    success: function(response){
+        success_HD = response.array 
+        console.log(response.array)
+        var ctx = document.getElementById('myChart_MSFT');
+      var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: ["Past_Dec", "Jan", "Feb", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          datasets: [{
+              label: 'Stock Price in $',
+              data: success_HD,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+        // handle any errors here
+    }
+});
+  
+</script>
+{% endfor %}  
+
 </body>
 </html>

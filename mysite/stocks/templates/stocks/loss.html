@@ -1,0 +1,135 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>STOCKS</title>
+  <meta name="description" content="THE STOCK GAME">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  {% load static %}
+
+  <link rel="stylesheet" type="text/css" href="{% static '/stocks/style.css' %}">
+
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col navbar navbar-dark bg-dark">
+        <div class="navbar-brand " id="lossUI" > YOU DIDN'T EARN ENOUGH IN TIME </div>
+        <div class="navbar-brand"> YOUR WORTH WAS ${{ player_worth|floatformat:2}}, YOUR TARGET WORTH WAS ${{ worth_target }}</div>
+        <a class="btn-sm btn-danger" id="resetbutton" href="/retry/"> TRY AGAIN? </a>
+      </nav>
+    </div>
+  </div>
+  
+  
+  <div class="container main-cont">
+    <div class="row">
+      <div class="col-6">
+          <div class="row">
+            <div class="col">
+              <div class="tab">
+                <button id="stockChartButton" class="tablinks" onclick="openTab(event,'Chart')">Stock Chart</button>
+                <div class="tab">
+                  <button id="NewsButton" class="tablinks" onclick="openTab(event,'News')">Stock News</button>
+                  </div>
+              </div>
+             </div>
+           </div>
+
+           <div id="News" class="tabcontent">
+              
+            <h1>
+            UNDER CONSTRUCTION
+
+            {{ data_1 }}
+
+            {{ data_conf }}
+
+            </h1>
+          </div>
+
+          
+          {% for stock in stock_info %}
+            
+
+            
+
+            <div id="Chart" class="tabcontent">
+              <h1> {{ stock.stock_symbol }}</h1>
+              <canvas id="myChart">  </canvas>
+            </div>
+
+          {% endfor %}  
+        
+      </div>
+      <div class="col-6 left">
+        
+        {% for stock in stock_info %}
+          
+            <h1>
+              {{ stock.stock_symbol }} is worth {{ stock.current_value }}. You have {{ stock.amount_owned }} shares of {{ stock.stock_symbol }}
+            </h1>
+
+
+            
+            
+          
+            
+                <form action = "/buy_{{stock.stock_symbol}}/" method="POST" id="userinput">{% csrf_token %} 
+                  <div class="form-group" >
+                    <label for="buying_stock"> Buy stocks of {{ stock.stock_symbol }}:</label> </br>
+                    
+                    
+                    {{form}}
+                        
+                  </div>
+                  <button type="submit" id="form-buy-{{ stock.stock_symbol }}"  class="btn btn-primary mb-2" disabled>Confirm Purchase</button>
+                </form>
+
+                <form action = "/sell_{{stock.stock_symbol}}/" method="POST" id="userform"> {% csrf_token %} 
+                  <div class="form-group">
+                      
+                    <label for="selling_stock"> Sell stocks of {{ stock.stock_symbol }}:</label> </br>
+                    <h5>{{error_sell_HD}} </h5>
+                    <h5>{{error_sell_DIS}} </h5>
+                    <h5>{{error_sell_MSFT}} </h5>
+                    {{form}}
+                    
+                  </div>
+                  <button type="submit" id="btn-sell-{{ stock.stock_symbol }}" onClick="sell-{{ stock.stock_symbol }}()" class="btn btn-primary mb-2" disabled>Confirm Sales</button>
+                </form>
+             <div class="end">
+              
+             </div>
+              
+         
+        
+        {% endfor %}
+
+
+        
+      </div>
+        
+    </div>
+   </div>
+ 
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+  <script
+			  src="https://code.jquery.com/jquery-3.6.0.min.js"
+			  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			  crossorigin="anonymous"></script>
+  
+
+
+
+  <script src="{% static '/stocks/index.js' %}"></script>
+</body>
+</html>

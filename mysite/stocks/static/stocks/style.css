@@ -41,6 +41,16 @@ font-size: 1rem;
   color: red;
 }
 
+#lossUI {
+  font-size: 3rem;
+
+}
+
+.Chart{
+  margin: auto;
+  height: 250px;
+}
+
 .left {
 border-left: 2px solid black;
 text-align: center;
@@ -74,28 +84,6 @@ h1{
 .btn {
  margin: auto;
  
-}
-
-#News {
-   display: none;
-}
-
-.tab button {
-background-color: inherit;
-float: left;
-border: 1px solid #ccc;
-outline: none;
-cursor: pointer;
-padding: 14px 16px;
-transition: 0.3s;
-}
-
-.tab button:hover {
-background-color: #ddd;
-}
-
-.tab button:active {
-background-color: silver;
 }
 
 #resetbutton {
