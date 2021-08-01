@@ -1,20 +1,15 @@
 <!doctype html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8">`
-
   <title>STOCKS</title>
   <meta name="description" content="THE STOCK GAME">
-
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
   {% load static %}
-
   <link rel="stylesheet" type="text/css" href="{% static '/stocks/style.css' %}">
-
 </head>
 
+<!-- Displays instructions on how to play, and will be used to submit your desired year and player name. (This later functionality does not exist yet) -->
 <body>
     <form action = "" method = "POST">
         {% csrf_token %} 
@@ -24,7 +19,6 @@
     
         <label for="player_year">Desired Year: </label>
         <input id="your_name" type="text" name="your_name">
-        <input type="submit" value="OK">
-       
+        <input type="submit" value="OK">    
       </form>
 </body>

@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+#Accepts data from api about the value of the stocks at each month. Also has the stock's symbol, current_value (in relation to game state), and the amount of the stock that is owned by the player.
 class stocks_info(models.Model):
     jan_value = models.FloatField(default=0.0)
     amount_owned = models.IntegerField(default = 3)
@@ -20,7 +21,7 @@ class stocks_info(models.Model):
     stock_symbol = models.CharField(max_length=20, default="ABC")
     current_value = models.FloatField(default=0.0)
  
-
+#Maintains a player state that manages the amount of money the player has, what time it is in game, information about the next check, and player's name and year inputs (this specifically is not currently implemented)
 class player_option(models.Model):
     player_name = models.CharField(max_length=16, default="player")
     player_year = models.IntegerField(default=2020)
@@ -37,13 +38,11 @@ class player_option(models.Model):
 
 
 
-#unusedmodels
+#Unused models
 class time_tracker(models.Model):
     action_economy = models.IntegerField(default=5)
     current_month = models.CharField(max_length=16, default='January')
     target_month = models.CharField(max_length=16, default="March")
-
-
 
 class stock_identity(models.Model):
     stock_symbol = models.CharField(max_length=5)
@@ -51,8 +50,6 @@ class stock_identity(models.Model):
 class player_money(models.Model):
     players_liquid_money = models.FloatField(default=500.0)
     players_total_money = models.FloatField(default=10000.0)
-
-
 
 class player_target(models.Model):
     march_target = models.FloatField(default=50.0)
