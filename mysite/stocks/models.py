@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.expressions import When
 
 # Create your models here.
 
@@ -32,9 +33,15 @@ class player_option(models.Model):
     current_month = models.CharField(max_length=16, default='January')
     target_month = models.CharField(max_length=16, default="March")
 
-
+class purchase_history(models.Model):
+    stock_symbol = models.CharField(max_length=20, default="None")
+    amount_purchased = models.IntegerField(default = 0)
+    purchase_method = models.CharField(max_length=16, default="buy")
+    when_purchased = models.CharField(max_length=20, default="Blank")
+    value_purchased = models.FloatField(default= 0.0)
     
-
+class player_worth_monthly(models.Model):
+    worth_end = models.FloatField(default=10000.0)
 
 
 

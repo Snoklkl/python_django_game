@@ -286,6 +286,7 @@ def buy_HD(request):
                 action_economy = player_information.action_economy + 1
                 new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * stock_HD.current_value)
                 #Updates how much money the player has, progresses time by a week, and updates how many shares of the stock the player owns.
+                cur.execute("INSERT INTO stocks_purchase_history (stock_symbol, amount_purchased, purchase_method, when_purchased, value_purchased) VALUES (?, ?, ?, ?, ?)", (stocks_info.stock_symbol, form.cleaned_data['stock_request'], "buy", (player_information.current_month + " " + str(player_information.action_economy)), stock_HD.current_value))
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 1", (new_HD,))
                 cur.execute("UPDATE stocks_player_option SET action_economy = ? WHERE id = 1", (action_economy,))
