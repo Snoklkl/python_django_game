@@ -1,6 +1,6 @@
 #Dependencies and imports
 from django.shortcuts import redirect, render
-from .models import stocks_info, stock_identity, player_money, player_target, player_option, time_tracker
+from .models import purchase_history, stocks_info, stock_identity, player_money, player_target, player_option, time_tracker
 from django.http import JsonResponse 
 import sqlite3
 import quandl
@@ -202,6 +202,27 @@ def failState(request):
     }
     return render(request, "stocks/loss.html", context)
 
+def history(request):
+    player_information = player_option.objects.get(id=1)
+    stock_HD = stocks_info.objects.get(id=1)
+    stock_DIS = stocks_info.objects.get(id=2)
+    stock_MSFT = stocks_info.objects.get(id=3)
+    player_worth = player_information.players_liquid_money + (stock_HD.current_value * stock_HD.amount_owned) + (stock_DIS.current_value * stock_DIS.amount_owned) + (stock_MSFT.current_value * stock_MSFT.amount_owned)
+
+    context = {
+        "purchase_history": purchase_history.objects.all(),
+        'action': player_information.action_economy,
+        'player_name': player_information.player_name.upper(),
+        'current_cash': player_information.players_liquid_money,
+        'player_worth': player_worth,
+        'current_month': player_information.current_month.upper(),
+        'target_month': player_information.target_month.upper(),
+        'worth_target': player_information.worth_target, 
+        'stock_info' : stocks_info.objects.all(),
+    }
+    return render(request, 'stocks/history.html', context)
+
+
 #The "home" page of the game, the primary page that most of the game takes place on. Successful purchases and sales will route back to here
 def index(request):
     BASE_DIR = Path(__file__).resolve().parent.parent
@@ -286,7 +307,7 @@ def buy_HD(request):
                 action_economy = player_information.action_economy + 1
                 new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * stock_HD.current_value)
                 #Updates how much money the player has, progresses time by a week, and updates how many shares of the stock the player owns.
-                cur.execute("INSERT INTO stocks_purchase_history (stock_symbol, amount_purchased, purchase_method, when_purchased, value_purchased) VALUES (?, ?, ?, ?, ?)", (stocks_info.stock_symbol, form.cleaned_data['stock_request'], "buy", (player_information.current_month + " " + str(player_information.action_economy)), stock_HD.current_value))
+                cur.execute("INSERT INTO stocks_purchase_history (stock_symbol, amount_purchased, purchase_method, when_purchased, value_purchased) VALUES (?, ?, ?, ?, ?)", (stock_HD.stock_symbol, form.cleaned_data['stock_request'], "bought", (str(player_information.action_economy) + " of " + player_information.current_month), stock_HD.current_value))
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 1", (new_HD,))
                 cur.execute("UPDATE stocks_player_option SET action_economy = ? WHERE id = 1", (action_economy,))

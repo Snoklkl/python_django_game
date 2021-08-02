@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>STOCKS</title>
+  <meta name="description" content="THE STOCK GAME">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static '/stocks/style.css' %}">
+</head>
+
+<!-- Very similar to index, with only changes to what navbar dislay and disabling the buttons -->
+<body>
+    <!-- Display information about the current state of the game and a button to restart -->
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col navbar navbar-dark bg-dark">
+        <div class="navbar-brand " id="ui" >IT IS WEEK {{action}} OF {{ current_month }}</div>
+        <div class="navbar-brand " id="ui" >YOU HAVE ${{ current_cash|floatformat:2 }} IN CASH AND YOUR NET WORTH IS ${{ player_worth|floatformat:2 }}</div>
+        <div class="navbar-brand" id="ui" >YOUR NET WORTH MUST BE ${{ worth_target|floatformat:2 }} BY {{ target_month}}</div>
+        <div class="navbar-brand" id="error" >{{error_message}}</div>
+        <a class="btn-sm btn-dark" id="resetbutton" href="/retry/"> RETRY? </a>
+      </nav>
+    </div>
+  </div>
+  <div class="container main-cont">
+      <h1 class="history_center"> Purchase History</h1>
+    <div class="row">
+      <!-- Seperates the main content, with half the screen being dedicated to the graphs and the other half to interacting with the stocks -->
+          <!-- Loops through stocks in the database, creating the html side of the graphs -->
+          {% for purchase in purchase_history %}
+         
+          <h3 class="history_center"> You {{purchase.purchase_method}} {{purchase.amount_purchased}} share(s) of {{ purchase.stock_symbol }} for {{ purchase.value_purchased }} a share. This transaction was made on week {{ purchase.when_purchased }}</h3> 
+          <div class="end"></div>
+          
+        
+          {% endfor %}  
+      </div>
+      <canvas id="myChart_{{purchase.stock_symbol}}" class="Chart"></canvas>
+    </div>
+</body>
+</html>

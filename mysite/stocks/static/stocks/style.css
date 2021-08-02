@@ -46,6 +46,12 @@ font-size: 1rem;
 
 }
 
+.history_center {
+  text-align: center;
+  margin: auto;
+  padding: 20px;
+}
+
 .Chart{
   margin: auto;
   height: 250px;
