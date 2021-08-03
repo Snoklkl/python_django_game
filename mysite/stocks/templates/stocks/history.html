@@ -23,20 +23,74 @@
       </nav>
     </div>
   </div>
-  <div class="container main-cont">
-      <h1 class="history_center"> Purchase History</h1>
+  <div class="container-fluid main-cont">
+      <div class="container-fluid main-cont">
+          
+        <h1 class="history_center"> Purchase History</h1>
+            <br>
+      </div>
     <div class="row">
       <!-- Seperates the main content, with half the screen being dedicated to the graphs and the other half to interacting with the stocks -->
           <!-- Loops through stocks in the database, creating the html side of the graphs -->
           {% for purchase in purchase_history %}
-         
+         <div class="container">
           <h3 class="history_center"> You {{purchase.purchase_method}} {{purchase.amount_purchased}} share(s) of {{ purchase.stock_symbol }} for {{ purchase.value_purchased }} a share. This transaction was made on week {{ purchase.when_purchased }}</h3> 
-          <div class="end"></div>
-          
-        
+          <div class="end"></div> <br>
+          </div>
+       
           {% endfor %}  
       </div>
-      <canvas id="myChart_{{purchase.stock_symbol}}" class="Chart"></canvas>
+      <canvas id="myChart_history" class="Chart"></canvas>
     </div>
+    <script>
+
+    $.ajax({
+        type: "GET",
+        url: '/gethistory/',
+        success: function(response){
+            success_HD = response.array 
+            console.log(response.array)
+            var ctx = document.getElementById('myChart_history');
+          var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+              datasets: [{
+                  label: 'Player Worth in $',
+                  data: success_HD,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            // handle any errors here
+        }
+    });
+    </script>
+
 </body>
 </html>

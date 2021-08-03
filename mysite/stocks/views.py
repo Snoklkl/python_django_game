@@ -306,7 +306,7 @@ def buy_HD(request):
                 cur = con.cursor()
                 action_economy = player_information.action_economy + 1
                 new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * stock_HD.current_value)
-                #Updates how much money the player has, progresses time by a week, and updates how many shares of the stock the player owns.
+                #Updates how much money the player has, progresses time by a week, and updates how many shares of the stock the player owns. Saves data that will be used for history page
                 cur.execute("INSERT INTO stocks_purchase_history (stock_symbol, amount_purchased, purchase_method, when_purchased, value_purchased) VALUES (?, ?, ?, ?, ?)", (stock_HD.stock_symbol, form.cleaned_data['stock_request'], "bought", (str(player_information.action_economy) + " of " + player_information.current_month), stock_HD.current_value))
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 1", (new_HD,))
@@ -431,6 +431,7 @@ def sell_HD(request):
                 cur = con.cursor()
                 action_economy = player_information.action_economy + 1
                 new_money = player_information.players_liquid_money + (form.cleaned_data['stock_request'] * stock_HD.current_value)
+                cur.execute("INSERT INTO stocks_purchase_history (stock_symbol, amount_purchased, purchase_method, when_purchased, value_purchased) VALUES (?, ?, ?, ?, ?)", (stock_HD.stock_symbol, form.cleaned_data['stock_request'], "sold", (str(player_information.action_economy) + " of " + player_information.current_month), stock_HD.current_value))
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 1", (new_HD,))
                 cur.execute("UPDATE stocks_player_option SET action_economy = ? WHERE id = 1", (action_economy,))
@@ -551,6 +552,7 @@ def buy_DIS(request):
                 cur = con.cursor()
                 action_economy = player_information.action_economy + 1
                 new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * stock_DIS.current_value)
+                cur.execute("INSERT INTO stocks_purchase_history (stock_symbol, amount_purchased, purchase_method, when_purchased, value_purchased) VALUES (?, ?, ?, ?, ?)", (stock_DIS.stock_symbol, form.cleaned_data['stock_request'], "bought", (str(player_information.action_economy) + " of " + player_information.current_month), stock_DIS.current_value))
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 2", (new_DIS,))
                 cur.execute("UPDATE stocks_player_option SET action_economy = ? WHERE id = 1", (action_economy,))
@@ -670,6 +672,7 @@ def sell_DIS(request):
                 cur = con.cursor()
                 action_economy = player_information.action_economy + 1
                 new_money = player_information.players_liquid_money + (form.cleaned_data['stock_request'] * stock_DIS.current_value)
+                cur.execute("INSERT INTO stocks_purchase_history (stock_symbol, amount_purchased, purchase_method, when_purchased, value_purchased) VALUES (?, ?, ?, ?, ?)", (stock_DIS.stock_symbol, form.cleaned_data['stock_request'], "sold", (str(player_information.action_economy) + " of " + player_information.current_month), stock_DIS.current_value))
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 2", (new_DIS,))
                 cur.execute("UPDATE stocks_player_option SET action_economy = ? WHERE id = 1", (action_economy,))
@@ -786,6 +789,7 @@ def buy_MSFT(request):
                 con = sqlite3.connect(db_path)
                 cur = con.cursor()
                 action_economy = player_information.action_economy + 1
+                cur.execute("INSERT INTO stocks_purchase_history (stock_symbol, amount_purchased, purchase_method, when_purchased, value_purchased) VALUES (?, ?, ?, ?, ?)", (stock_MSFT.stock_symbol, form.cleaned_data['stock_request'], "bought", (str(player_information.action_economy) + " of " + player_information.current_month), stock_MSFT.current_value))
                 new_money = player_information.players_liquid_money - (form.cleaned_data['stock_request'] * stock_MSFT.current_value)
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 3", (new_MSFT,))
@@ -905,6 +909,7 @@ def sell_MSFT(request):
                 cur = con.cursor()
                 action_economy = player_information.action_economy + 1
                 new_money = player_information.players_liquid_money + (form.cleaned_data['stock_request'] * stock_MSFT.current_value)
+                cur.execute("INSERT INTO stocks_purchase_history (stock_symbol, amount_purchased, purchase_method, when_purchased, value_purchased) VALUES (?, ?, ?, ?, ?)", (stock_MSFT.stock_symbol, form.cleaned_data['stock_request'], "sold", (str(player_information.action_economy) + " of " + player_information.current_month), stock_MSFT.current_value))
                 cur.execute("UPDATE stocks_player_option SET players_liquid_money = ? WHERE id = 1", (new_money,))
                 cur.execute("UPDATE stocks_stocks_info SET amount_owned = ? WHERE id = 3", (new_MSFT,))
                 cur.execute("UPDATE stocks_player_option SET action_economy = ? WHERE id = 1", (action_economy,))

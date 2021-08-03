@@ -5,7 +5,6 @@
   <title>STOCKS</title>
   <meta name="description" content="THE STOCK GAME">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static '/stocks/style.css' %}">
 </head>
@@ -21,108 +20,193 @@
       </nav>
     </div>
   </div>
-  
   <div class="container main-cont">
     <div class="row">
+      <!-- Seperates the main content, with half the screen being dedicated to the graphs and the other half to interacting with the stocks -->
       <div class="col-6">
-          <div class="row">
-            <div class="col">
-              <div class="tab">
-                <button id="stockChartButton" class="tablinks" onclick="openTab(event,'Chart')">Stock Chart</button>
-                <div class="tab">
-                  <button id="NewsButton" class="tablinks" onclick="openTab(event,'News')">Stock News</button>
-                  </div>
-              </div>
-             </div>
-           </div>
-           <div id="News" class="tabcontent">
-  
-            <h1>
-            UNDER CONSTRUCTION
-
-            {{ data_1 }}
-
-            {{ data_conf }}
-
-            </h1>
-          </div>
-
-          
+          <!-- Loops through stocks in the database, creating the html side of the graphs -->
           {% for stock in stock_info %}
-            
-
-            
-
-            <div id="Chart" class="tabcontent">
-              <h1> {{ stock.stock_symbol }}</h1>
-              <canvas id="myChart">  </canvas>
+          <h1> {{ stock.stock_symbol }}</h1>
+            <div>
+              <canvas id="myChart_{{stock.stock_symbol}}" class="Chart"></canvas>
             </div>
-
           {% endfor %}  
-        
       </div>
+      <!-- Left class used to make a line between the two halves of content -->
       <div class="col-6 left">
-        
+        <!-- Loops through each stock in the database to display purchase and selling information, as well as information about current pricing and amount owned.-->
         {% for stock in stock_info %}
-          
             <h1>
               {{ stock.stock_symbol }} is worth {{ stock.current_value }}. You have {{ stock.amount_owned }} shares of {{ stock.stock_symbol }}
             </h1>
-
-
-            
-            
-          
-            
                 <form action = "/buy_{{stock.stock_symbol}}/" method="POST" id="userinput">{% csrf_token %} 
                   <div class="form-group" >
                     <label for="buying_stock"> Buy stocks of {{ stock.stock_symbol }}:</label> </br>
-                    
-                    
-                    {{form}}
-                        
+                    {{form}} 
                   </div>
-                  <button type="submit" id="form-buy-{{ stock.stock_symbol }}"  class="btn btn-primary mb-2" disabled>Confirm Purchase</button>
+                  <button type="submit" id="form-buy-{{ stock.stock_symbol }}"  class="btn btn-primary mb-2">Confirm Purchase</button>
                 </form>
-
                 <form action = "/sell_{{stock.stock_symbol}}/" method="POST" id="userform"> {% csrf_token %} 
                   <div class="form-group">
-                      
                     <label for="selling_stock"> Sell stocks of {{ stock.stock_symbol }}:</label> </br>
                     <h5>{{error_sell_HD}} </h5>
                     <h5>{{error_sell_DIS}} </h5>
                     <h5>{{error_sell_MSFT}} </h5>
                     {{form}}
-                    
                   </div>
-                  <button type="submit" id="btn-sell-{{ stock.stock_symbol }}" onClick="sell-{{ stock.stock_symbol }}()" class="btn btn-primary mb-2" disabled>Confirm Sales</button>
+                  <button type="submit" id="btn-sell-{{ stock.stock_symbol }}" onClick="sell-{{ stock.stock_symbol }}()" class="btn btn-primary mb-2">Confirm Sales</button>
                 </form>
+                <!-- Used as a way to create lines between stocks -->
              <div class="end">
-              
              </div>
-              
-         
-        
-        {% endfor %}
-
-
-        
+        {% endfor %}        
       </div>
-        
     </div>
    </div>
- 
-  
+  <!-- Script imports -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-  <script
-			  src="https://code.jquery.com/jquery-3.6.0.min.js"
-			  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-			  crossorigin="anonymous"></script>
-  
-
-
-
-  <script src="{% static '/stocks/index.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <!-- Makes an ajax request for HD, retrieving the data to display the graph with chart.js. Also passes data to chart.js about formatting and labels. -->
+  <!-- This is repeated for stocks DIS and MSFT -->
+  <script>
+    $.ajax({
+    type: "GET",
+    url: '/gethd/',
+    success: function(response){
+        success_HD = response.array 
+        console.log(response.array)
+        var ctx = document.getElementById('myChart_HD');
+      var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: ["Past_Dec", "Jan", "Feb", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          datasets: [{
+              label: 'Stock Price in $',
+              data: success_HD,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+        // handle any errors here
+    }
+});
+$.ajax({
+    type: "GET",
+    url: '/getdis/',
+    success: function(response){
+        success_HD = response.array 
+        console.log(response.array)
+        var ctx = document.getElementById('myChart_DIS');
+      var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: ["Past_Dec", "Jan", "Feb", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          datasets: [{
+              label: 'Stock Price in $',
+              data: success_HD,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+        // handle any errors here
+    }
+});
+$.ajax({
+    type: "GET",
+    url: '/getmsft/',
+    success: function(response){
+        success_HD = response.array 
+        console.log(response.array)
+        var ctx = document.getElementById('myChart_MSFT');
+      var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: ["Past_Dec", "Jan", "Feb", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+          datasets: [{
+              label: 'Stock Price in $',
+              data: success_HD,
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+    },
+    error: function(jqXHR, textStatus, errorThrown){
+        // handle any errors here
+    }
+});  
+</script>
 </body>
 </html>
