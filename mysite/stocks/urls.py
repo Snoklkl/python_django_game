@@ -4,6 +4,7 @@ from . import views
 app_name = 'stocks'
 
 urlpatterns = [
+    path("gethistory/", views.gethistory),
     path("history/", views.history),
     path("gethd/", views.gethd),
     path("getdis/", views.getdis),

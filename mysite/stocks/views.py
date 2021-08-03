@@ -1,6 +1,6 @@
 #Dependencies and imports
 from django.shortcuts import redirect, render
-from .models import purchase_history, stocks_info, stock_identity, player_money, player_target, player_option, time_tracker
+from .models import purchase_history, stocks_info, stock_identity, player_money, player_target, player_option, time_tracker, player_worth_monthly
 from django.http import JsonResponse 
 import sqlite3
 import quandl
@@ -109,8 +109,10 @@ def getmsft(request):
 
 def gethistory(request):
     array = []
-    player_history = player_option.objects.get(all)
-    for month in player_history:
+    i = 1
+    while i < 12:
+        i += 1
+        month = player_worth_monthly.objects.get(id=i)
         array.append(month.worth_end)
     return JsonResponse({'array': array})
 
@@ -134,8 +136,8 @@ def restart(request):
     data_2 = quandl.get("EOD/" + query_2, start_date = "2014-12-1", end_date = "2015-12-1", collapse="monthly", rows=13, column_index = 1, returns="numpy")
     data_3 = quandl.get("EOD/" + query_3, start_date = "2014-12-1", end_date = "2015-12-1", collapse="monthly", rows=13, column_index = 1, returns="numpy")
     stock_database_info_1 = [1, data_1[1][1], 3, data_1[2][1], data_1[3][1], data_1[4][1], data_1[5][1], data_1[6][1], data_1[7][1], data_1[8][1], data_1[9][1], data_1[10][1], data_1[11][1], data_1[12][1], data_1[0][1], query_1, data_1[1][1]] 
-    stock_database_info_2 = [2, data_2[1][1], 5, data_2[2][1], data_2[3][1], data_2[4][1], data_2[5][1], data_2[6][1], data_2[7][1], data_2[8][1], data_2[9][1], data_2[10][1], data_2[11][1], data_2[12][1], data_2[0][1], query_2, data_1[1][1]] 
-    stock_database_info_3 = [3,  data_3[1][1], 8, data_3[2][1], data_3[3][1], data_3[4][1], data_3[5][1], data_3[6][1], data_3[7][1], data_3[8][1], data_3[9][1], data_3[10][1], data_3[11][1], data_3[12][1], data_3[0][1], query_3, data_1[1][1]] 
+    stock_database_info_2 = [2, data_2[1][1], 5, data_2[2][1], data_2[3][1], data_2[4][1], data_2[5][1], data_2[6][1], data_2[7][1], data_2[8][1], data_2[9][1], data_2[10][1], data_2[11][1], data_2[12][1], data_2[0][1], query_2, data_2[1][1]] 
+    stock_database_info_3 = [3,  data_3[1][1], 8, data_3[2][1], data_3[3][1], data_3[4][1], data_3[5][1], data_3[6][1], data_3[7][1], data_3[8][1], data_3[9][1], data_3[10][1], data_3[11][1], data_3[12][1], data_3[0][1], query_3, data_3[1][1]] 
     cur.executemany("INSERT OR REPLACE INTO stocks_stocks_info (id, jan_value, amount_owned, feb_value, mar_value, april_value, may_value, june_value, july_value, aug_value, sept_value, oct_value, nov_value, december_value, past_dec_value, stock_symbol, current_value) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [stock_database_info_1, stock_database_info_2, stock_database_info_3])
 
     cur.execute("DELETE FROM stocks_purchase_history")
@@ -149,7 +151,7 @@ def restart(request):
     worth_target = player_worth * (1.05)
     cur.execute("UPDATE stocks_player_option SET (worth_target) = (?) WHERE id = 1", (worth_target,)) 
     con.commit()
-    cur.execute("INSERT INTO stocks_player_worth_monthly VALUES (?, ?)", (1, player_worth))
+    cur.execute("INSERT OR REPLACE INTO stocks_player_worth_monthly VALUES (?, ?)", (1, player_worth))
     con.commit()
     return redirect('/stocks/')
 
