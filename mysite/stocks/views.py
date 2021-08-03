@@ -107,6 +107,13 @@ def getmsft(request):
         array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value, stock_MSFT.may_value, stock_MSFT.june_value, stock_MSFT.july_value, stock_MSFT.aug_value, stock_MSFT.sept_value, stock_MSFT.oct_value, stock_MSFT.nov_value, stock_MSFT.december_value]
     return JsonResponse({'array': array})
 
+def gethistory(request):
+    array = []
+    player_history = player_option.objects.get(all)
+    for month in player_history:
+        array.append(month.worth_end)
+    return JsonResponse({'array': array})
+
 #Request path that will be is used for failure state or if player wants to restart from the beginning
 def restart(request): 
     player_information = player_option.objects.get(id=1)
@@ -131,6 +138,8 @@ def restart(request):
     stock_database_info_3 = [3,  data_3[1][1], 8, data_3[2][1], data_3[3][1], data_3[4][1], data_3[5][1], data_3[6][1], data_3[7][1], data_3[8][1], data_3[9][1], data_3[10][1], data_3[11][1], data_3[12][1], data_3[0][1], query_3, data_1[1][1]] 
     cur.executemany("INSERT OR REPLACE INTO stocks_stocks_info (id, jan_value, amount_owned, feb_value, mar_value, april_value, may_value, june_value, july_value, aug_value, sept_value, oct_value, nov_value, december_value, past_dec_value, stock_symbol, current_value) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [stock_database_info_1, stock_database_info_2, stock_database_info_3])
 
+    cur.execute("DELETE FROM stocks_purchase_history")
+    cur.execute("DELETE FROM stocks_purchase_history")
     action_reset = 1
     month_reset = "January"
     money_reset = 500
@@ -140,9 +149,11 @@ def restart(request):
     worth_target = player_worth * (1.05)
     cur.execute("UPDATE stocks_player_option SET (worth_target) = (?) WHERE id = 1", (worth_target,)) 
     con.commit()
+    cur.execute("INSERT INTO stocks_player_worth_monthly VALUES (?, ?)", (1, player_worth))
+    con.commit()
     return redirect('/stocks/')
 
-#Request path that will take you to a specific page that will show some instructions before you start the game
+#Currently unused, equest path that will take you to a specific page that will show some instructions before you start the game and would allow you to choose your name and year playing on.
 def configStart(request):
     player_information = player_option.objects.get(id=1)
     stock_HD = stocks_info.objects.get(id=1)
@@ -166,6 +177,8 @@ def configStart(request):
     stock_database_info_3 = [3,  data_3[1][1], 8, data_3[2][1], data_3[3][1], data_3[4][1], data_3[5][1], data_3[6][1], data_3[7][1], data_3[8][1], data_3[9][1], data_3[10][1], data_3[11][1], data_3[12][1], data_3[0][1], query_3, data_1[1][1]] 
     cur.executemany("INSERT OR REPLACE INTO stocks_stocks_info (id, jan_value, amount_owned, feb_value, mar_value, april_value, may_value, june_value, july_value, aug_value, sept_value, oct_value, nov_value, december_value, past_dec_value, stock_symbol, current_value) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [stock_database_info_1, stock_database_info_2, stock_database_info_3])
 
+    cur.execute("DELETE FROM stocks_players_worth_monthly")
+    cur.execute("DELETE FROM stocks_purchase_history")
     action_reset = 1
     month_reset = "January"
     money_reset = 500
@@ -173,6 +186,8 @@ def configStart(request):
     player_worth = player_information.players_liquid_money + (stock_HD.current_value * stock_HD.amount_owned) + (stock_DIS.current_value * stock_DIS.amount_owned) + (stock_MSFT.current_value * stock_MSFT.amount_owned)
     worth_target = player_worth * (1.05)
     cur.execute("UPDATE stocks_player_option SET (worth_target) = (?) WHERE id = 1", (worth_target,)) 
+    con.commit()
+    cur.execute("INSERT INTO stocks_players_worth_monthly VALUES (?)", (player_worth))
     con.commit()
     return render(request, "stocks/start.html")
 
