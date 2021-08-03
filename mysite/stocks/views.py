@@ -109,11 +109,92 @@ def getmsft(request):
 
 def gethistory(request):
     array = []
-    i = 1
-    while i < 12:
-        i += 1
-        month = player_worth_monthly.objects.get(id=i)
-        array.append(month.worth_end)
+    player_information = player_option.objects.get(id=1)
+    if player_information.current_month == "January":
+        j=1
+        i=1
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "February":
+        j=1
+        i=2
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "March":
+        j=1
+        i=3
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "April":
+        j=1
+        i=4
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "May":
+        j=1
+        i=5
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "June":
+        j=1
+        i=6
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "July":
+        j=1
+        i=7
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "August":
+        j=1
+        i=8
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "September":
+        j=1
+        i=9
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "October":
+        j=1
+        i=10
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "November":
+        j=1
+        i=11
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    elif player_information.current_month == "December":
+        j=1
+        i=12
+        while j < i+1:
+            month = player_worth_monthly.objects.get(id=j)
+            array.append(month.worth_end)
+            j += 1
+    
     return JsonResponse({'array': array})
 
 #Request path that will be is used for failure state or if player wants to restart from the beginning

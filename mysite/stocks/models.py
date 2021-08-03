@@ -44,7 +44,6 @@ class player_worth_monthly(models.Model):
     worth_end = models.FloatField(default=10000.0)
 
 
-
 #Unused models
 class time_tracker(models.Model):
     action_economy = models.IntegerField(default=5)

@@ -26,6 +26,7 @@
     <div class="row">
       <!-- Seperates the main content, with half the screen being dedicated to the graphs and the other half to interacting with the stocks -->
       <div class="col-6">
+        <a class="history_link" href="/history/">Purchase History</a>
           <!-- Loops through stocks in the database, creating the html side of the graphs -->
           {% for stock in stock_info %}
           <h1> {{ stock.stock_symbol }}</h1>
