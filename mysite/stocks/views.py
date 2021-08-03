@@ -107,6 +107,7 @@ def getmsft(request):
         array = [stock_MSFT.past_dec_value, stock_MSFT.jan_value, stock_MSFT.feb_value, stock_MSFT.mar_value, stock_MSFT.april_value, stock_MSFT.may_value, stock_MSFT.june_value, stock_MSFT.july_value, stock_MSFT.aug_value, stock_MSFT.sept_value, stock_MSFT.oct_value, stock_MSFT.nov_value, stock_MSFT.december_value]
     return JsonResponse({'array': array})
 
+#Request path that gets the data required for the chart on history page. Loops through each part of the table based on the number of months
 def gethistory(request):
     array = []
     player_information = player_option.objects.get(id=1)
@@ -300,6 +301,7 @@ def failState(request):
     }
     return render(request, "stocks/loss.html", context)
 
+#History page, most of the logic and context was created from index page.
 def history(request):
     player_information = player_option.objects.get(id=1)
     stock_HD = stocks_info.objects.get(id=1)
@@ -319,7 +321,6 @@ def history(request):
         'stock_info' : stocks_info.objects.all(),
     }
     return render(request, 'stocks/history.html', context)
-
 
 #The "home" page of the game, the primary page that most of the game takes place on. Successful purchases and sales will route back to here
 def index(request):

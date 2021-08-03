@@ -33,6 +33,7 @@ class player_option(models.Model):
     current_month = models.CharField(max_length=16, default='January')
     target_month = models.CharField(max_length=16, default="March")
 
+#Model to store data that is printed for each purchase or sell
 class purchase_history(models.Model):
     stock_symbol = models.CharField(max_length=20, default="None")
     amount_purchased = models.IntegerField(default = 0)
@@ -40,6 +41,7 @@ class purchase_history(models.Model):
     when_purchased = models.CharField(max_length=20, default="Blank")
     value_purchased = models.FloatField(default= 0.0)
     
+#Model for player worth at different monthly intervals
 class player_worth_monthly(models.Model):
     worth_end = models.FloatField(default=10000.0)
 
